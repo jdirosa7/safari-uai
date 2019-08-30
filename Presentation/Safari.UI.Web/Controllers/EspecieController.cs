@@ -9,6 +9,7 @@ using System.Web.Mvc;
 
 namespace Safari.UI.Web.Controllers
 {
+    [Authorize]//Securizo que no se pueda acceder a ninguna vista o controlador si no estoy autenticado
     public class EspecieController : Controller
     {
         // GET: Especie
