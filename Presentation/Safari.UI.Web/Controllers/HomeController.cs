@@ -8,6 +8,8 @@ namespace Safari.UI.Web.Controllers
 {
     public class HomeController : Controller
     {
+        [Authorize]
+        [Route("", Name = "HomeControlleRouteIndex")]
         public ActionResult Index()
         {
             return View();
