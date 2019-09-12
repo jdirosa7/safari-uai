@@ -46,8 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppointmentDAC.cs" />
+    <Compile Include="ClientDAC.cs" />
     <Compile Include="DataAccessComponent.cs" />
-    <Compile Include="EspecieDAC.cs" />
+    <Compile Include="DoctorDAC.cs" />
+    <Compile Include="MovementDAC.cs" />
+    <Compile Include="MovementTypeDAC.cs" />
+    <Compile Include="PatientDAC.cs" />
+    <Compile Include="PriceDAC.cs" />
+    <Compile Include="RoomDAC.cs" />
+    <Compile Include="ServiceTypeDAC.cs" />
+    <Compile Include="SpecieDAC.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

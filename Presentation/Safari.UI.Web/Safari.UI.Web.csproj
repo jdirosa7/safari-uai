@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -47,6 +48,9 @@
     <Reference Include="Boilerplate.Web.Mvc5, Version=1.0.26.0, Culture=neutral, PublicKeyToken=fc5550082a9c642c, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Boilerplate.Web.Mvc5.1.0.26\lib\net452\Boilerplate.Web.Mvc5.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="CaptchaMvc, Version=2.5.0.0, Culture=neutral, PublicKeyToken=fe46ad421dd3b0e6, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\CaptchaMvc.Mvc5.1.5.0\lib\net45-full\CaptchaMvc.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
@@ -176,12 +180,34 @@
     <Compile Include="Areas\Admin\Controllers\HomeController.cs" />
     <Compile Include="Constants\Application.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\EspecieController.cs" />
+    <Compile Include="Controllers\AppointmentController.cs" />
+    <Compile Include="Controllers\ClientController.cs" />
+    <Compile Include="Controllers\DoctorController.cs" />
+    <Compile Include="Controllers\MovementController.cs" />
+    <Compile Include="Controllers\MovementTypeController.cs" />
+    <Compile Include="Controllers\PatientController.cs" />
+    <Compile Include="Controllers\PriceController.cs" />
+    <Compile Include="Controllers\RoomController.cs" />
+    <Compile Include="Controllers\ServiceTypeController.cs" />
+    <Compile Include="Controllers\SpecieController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201909121853599_InitialCreate.cs" />
+    <Compile Include="Migrations\201909121853599_InitialCreate.Designer.cs">
+      <DependentUpon>201909121853599_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909121909189_Init.cs" />
+    <Compile Include="Migrations\201909121909189_Init.Designer.cs">
+      <DependentUpon>201909121909189_Init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201909121937321_Update.cs" />
+    <Compile Include="Migrations\201909121937321_Update.Designer.cs">
+      <DependentUpon>201909121937321_Update.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -209,6 +235,9 @@
     <Content Include="Areas\Admin\Views\web.config" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
+    <Content Include="Images\banner1.png" />
+    <Content Include="Images\banner2.png" />
+    <Content Include="Images\banner3.png" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
@@ -258,17 +287,49 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_MenuPartial.cshtml" />
-    <Content Include="Views\Especie\Details.cshtml" />
-    <Content Include="Views\Especie\Create.cshtml" />
-    <Content Include="Views\Especie\Index.cshtml" />
-    <Content Include="Views\Especie\Edit.cshtml" />
-    <Content Include="Views\Especie\Delete.cshtml" />
+    <Content Include="Views\Specie\Details.cshtml" />
+    <Content Include="Views\Specie\Create.cshtml" />
+    <Content Include="Views\Specie\Index.cshtml" />
+    <Content Include="Views\Specie\Edit.cshtml" />
+    <Content Include="Views\Specie\Delete.cshtml" />
+    <Content Include="Views\Doctor\Index.cshtml" />
+    <Content Include="Views\Doctor\Create.cshtml" />
+    <Content Include="Views\Doctor\Details.cshtml" />
+    <Content Include="Views\Doctor\Delete.cshtml" />
+    <Content Include="Views\Doctor\Edit.cshtml" />
+    <Content Include="Views\Movement\Index.cshtml" />
+    <Content Include="Views\Patient\Index.cshtml" />
+    <Content Include="Views\Patient\Details.cshtml" />
+    <Content Include="Views\Patient\Create.cshtml" />
+    <Content Include="Views\Patient\Edit.cshtml" />
+    <Content Include="Views\Patient\Delete.cshtml" />
+    <Content Include="Views\Price\Index.cshtml" />
+    <Content Include="Views\Price\Create.cshtml" />
+    <Content Include="Views\Price\Edit.cshtml" />
+    <Content Include="Views\Client\Index.cshtml" />
+    <Content Include="Views\Client\Details.cshtml" />
+    <Content Include="Views\Client\Create.cshtml" />
+    <Content Include="Views\Client\Edit.cshtml" />
+    <Content Include="Views\Client\Delete.cshtml" />
+    <Content Include="Views\Room\Index.cshtml" />
+    <Content Include="Views\Room\Details.cshtml" />
+    <Content Include="Views\Room\Create.cshtml" />
+    <Content Include="Views\Room\Edit.cshtml" />
+    <Content Include="Views\Room\Delete.cshtml" />
+    <Content Include="Views\Appointment\Index.cshtml" />
+    <Content Include="Views\Appointment\Details.cshtml" />
+    <Content Include="Views\Appointment\Create.cshtml" />
+    <Content Include="Views\Appointment\Edit.cshtml" />
+    <Content Include="Views\Appointment\Delete.cshtml" />
+    <Content Include="Views\Account\Confirm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Views\MovementType\" />
+    <Folder Include="Views\ServiceType\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -291,6 +352,17 @@
       <Project>{7B34EC89-2823-4817-ADAD-942A08C1AC24}</Project>
       <Name>Safari.UI.Process</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201909121853599_InitialCreate.resx">
+      <DependentUpon>201909121853599_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909121909189_Init.resx">
+      <DependentUpon>201909121909189_Init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201909121937321_Update.resx">
+      <DependentUpon>201909121937321_Update.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

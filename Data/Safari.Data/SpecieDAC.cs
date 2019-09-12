@@ -10,9 +10,9 @@ using Safari.Entities;
 
 namespace Safari.Data
 {
-    public partial class EspecieDAC : DataAccessComponent, IRepository<Especie>
+    public partial class SpecieDAC : DataAccessComponent, IRepository<Species>
     {
-        public Especie Create(Especie especie)
+        public Species Create(Species especie)
         {
             const string SQL_STATEMENT = "INSERT INTO Especie ([Nombre]) VALUES(@Nombre); SELECT SCOPE_IDENTITY();";
 
@@ -25,11 +25,11 @@ namespace Safari.Data
             return especie;
         }
 		
-        public List<Especie> Read()
+        public List<Species> Read()
         {
             const string SQL_STATEMENT = "SELECT [Id], [Nombre] FROM Especie ";
 
-            List<Especie> result = new List<Especie>();
+            List<Species> result = new List<Species>();
             var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
             using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
             {
@@ -37,7 +37,7 @@ namespace Safari.Data
                 {
                     while (dr.Read())
                     {
-                        Especie especie = LoadEspecie(dr);
+                        Species especie = LoadEspecie(dr);
                         result.Add(especie);
                     }
                 }
@@ -45,10 +45,10 @@ namespace Safari.Data
             return result;
         }
 		
-        public Especie ReadBy(int id)
+        public Species ReadBy(int id)
         {
             const string SQL_STATEMENT = "SELECT [Id], [Nombre] FROM Especie WHERE [Id]=@Id ";
-            Especie especie = null;
+            Species especie = null;
 
             var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
             using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
@@ -65,7 +65,7 @@ namespace Safari.Data
             return especie;
         }
 		
-        public void Update(Especie especie)
+        public void Update(Species especie)
         {
             const string SQL_STATEMENT = "UPDATE Especie SET [Nombre]= @Nombre WHERE [Id]= @Id ";
 
@@ -89,9 +89,9 @@ namespace Safari.Data
             }
         }
 		
-        private Especie LoadEspecie(IDataReader dr)
+        private Species LoadEspecie(IDataReader dr)
         {
-            Especie especie = new Especie();
+            Species especie = new Species();
             especie.Id = GetDataValue<int>(dr, "Id");
             especie.Nombre = GetDataValue<string>(dr, "Nombre");
             return especie;

@@ -39,7 +39,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EspecieComponent.cs" />
+    <Compile Include="AppointmentComponent.cs" />
+    <Compile Include="ClientComponent.cs" />
+    <Compile Include="DoctorComponent.cs" />
+    <Compile Include="MovementComponent.cs" />
+    <Compile Include="MovementTypeComponent.cs" />
+    <Compile Include="PatientComponent.cs" />
+    <Compile Include="PriceComponent.cs" />
+    <Compile Include="RoomComponent.cs" />
+    <Compile Include="ServiceTypeComponent.cs" />
+    <Compile Include="SpecieComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

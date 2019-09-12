@@ -10,7 +10,7 @@ using System.Runtime.Serialization;
 namespace Safari.Entities
 {
 
-    public partial class Especie : IEntity
+    public partial class Species : IEntity
     {
         [DisplayName("Id")]
         public int Id { get; set; }

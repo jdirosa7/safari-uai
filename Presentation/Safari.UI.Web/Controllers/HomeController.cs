@@ -7,14 +7,14 @@ using System.Web.Mvc;
 namespace Safari.UI.Web.Controllers
 {
     public class HomeController : Controller
-    {
-        [Authorize]
-        [Route("", Name = "HomeControlleRouteIndex")]
+    {        
+        [Route("", Name = "HomeControllerRouteIndex")]
         public ActionResult Index()
         {
             return View();
         }
 
+        [Route("acerca-de-nosotros", Name = "HomeControllerRouteAbout")]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
@@ -22,6 +22,7 @@ namespace Safari.UI.Web.Controllers
             return View();
         }
 
+        [Route("contacto", Name = "HomeControllerRouteContact")]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";

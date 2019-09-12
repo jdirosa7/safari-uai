@@ -1,7 +1,4 @@
-﻿using Safari.Business;
-using Safari.Entities;
-using Safari.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,37 +6,34 @@ using System.Web.Mvc;
 
 namespace Safari.UI.Web.Controllers
 {
-    [Authorize]//Securizo que no se pueda acceder a ninguna vista o controlador si no estoy autenticado
-    public class EspecieController : Controller
+    public class MovementTypeController : Controller
     {
-        // GET: Especie
+        // GET: MovementType
         public ActionResult Index()
         {
-            var especieSC = new EspecieService();
-            var especies = especieSC.Listar();
-            return View(especies);
+            return View();
         }
 
-        // GET: Especie/Details/5
+        // GET: MovementType/Details/5
         public ActionResult Details(int id)
         {
             return View();
         }
 
-        // GET: Especie/Create
+        // GET: MovementType/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Especie/Create
+        // POST: MovementType/Create
         [HttpPost]
-        public ActionResult Create(Especie especie)
+        public ActionResult Create(FormCollection collection)
         {
             try
             {
-                var especieSC = new EspecieService();
-                var model = especieSC.Agregar(especie);
+                // TODO: Add insert logic here
+
                 return RedirectToAction("Index");
             }
             catch
@@ -48,13 +42,13 @@ namespace Safari.UI.Web.Controllers
             }
         }
 
-        // GET: Especie/Edit/5
+        // GET: MovementType/Edit/5
         public ActionResult Edit(int id)
         {
             return View();
         }
 
-        // POST: Especie/Edit/5
+        // POST: MovementType/Edit/5
         [HttpPost]
         public ActionResult Edit(int id, FormCollection collection)
         {
@@ -70,13 +64,13 @@ namespace Safari.UI.Web.Controllers
             }
         }
 
-        // GET: Especie/Delete/5
+        // GET: MovementType/Delete/5
         public ActionResult Delete(int id)
         {
             return View();
         }
 
-        // POST: Especie/Delete/5
+        // POST: MovementType/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, FormCollection collection)
         {
