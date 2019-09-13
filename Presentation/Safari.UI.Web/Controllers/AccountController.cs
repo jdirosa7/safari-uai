@@ -178,21 +178,21 @@ namespace Safari.UI.Web.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
-                        new System.Net.Mail.MailAddress("joel.dirosa@hotmail.com", "Web Registration"),
-                        new System.Net.Mail.MailAddress(user.Email))
-                    {
-                        Subject = "Email confirmation",
-                        Body = string.Format("Dear {0}<BR/>Thank you for your registration, please click on the below link to comlete your registration: <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>", user.UserName, Url.Action("ConfirmEmail", "Account", new { Token = user.Id, Email = user.Email }, Request.Url.Scheme)),
-                        IsBodyHtml = true
-                    };
+                    //System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage(
+                    //    new System.Net.Mail.MailAddress("joel.dirosa@hotmail.com", "Web Registration"),
+                    //    new System.Net.Mail.MailAddress(user.Email))
+                    //{
+                    //    Subject = "Email confirmation",
+                    //    Body = string.Format("Dear {0}<BR/>Thank you for your registration, please click on the below link to comlete your registration: <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>", user.UserName, Url.Action("ConfirmEmail", "Account", new { Token = user.Id, Email = user.Email }, Request.Url.Scheme)),
+                    //    IsBodyHtml = true
+                    //};
 
-                    System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("smtp.live.com");
-                    smtp.Credentials = new System.Net.NetworkCredential("joel.dirosa@hotmail.com", "Boquita10");
-                    smtp.EnableSsl = true;
-                    smtp.Send(m);
+                    //System.Net.Mail.SmtpClient smtp = new System.Net.Mail.SmtpClient("smtp.live.com", 25);
+                    //smtp.Credentials = new System.Net.NetworkCredential("joel.dirosa@hotmail.com", "Boquita10");
+                    //smtp.EnableSsl = true;
+                    //smtp.Send(m);
 
-                    //await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
                     
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link

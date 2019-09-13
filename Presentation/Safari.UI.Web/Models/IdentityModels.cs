@@ -33,24 +33,6 @@ namespace Safari.UI.Web.Models
             return new ApplicationDbContext();
         }
 
-        public System.Data.Entity.DbSet<Safari.Entities.Doctor> Doctors { get; set; }
-
-        public System.Data.Entity.DbSet<Safari.Entities.Movement> Movements { get; set; }
-
-        public System.Data.Entity.DbSet<Safari.Entities.Client> Clients { get; set; }
-
-        public System.Data.Entity.DbSet<Safari.Entities.MovementType> MovementTypes { get; set; }
-
-        public System.Data.Entity.DbSet<Safari.Entities.Patient> Patients { get; set; }
-
-        public System.Data.Entity.DbSet<Safari.Entities.Species> Species { get; set; }
-
-        public System.Data.Entity.DbSet<Safari.Entities.Price> Prices { get; set; }
-
-        public System.Data.Entity.DbSet<Safari.Entities.ServiceType> ServiceTypes { get; set; }
-
-        public System.Data.Entity.DbSet<Safari.Entities.Room> Rooms { get; set; }
-
-        public System.Data.Entity.DbSet<Safari.Entities.Appointment> Appointments { get; set; }
+        
     }
 }

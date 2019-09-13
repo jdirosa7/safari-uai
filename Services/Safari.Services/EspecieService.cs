@@ -11,14 +11,23 @@ namespace Safari.Services
 {
     public class EspecieService : IEspecie
     {
-        public Species Agregar(Species especie)
+        public EspecieService()
+        {
+
+        }
+        public Species Add(Species especie)
         {
             var bs = new SpecieComponent();
             var model = bs.Add(especie);
             return model;
         }
 
-        public List<Species> Listar()
+        public Species Find(int? id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Species> ToList()
         {            
             var bs = new SpecieComponent();
             var especies = bs.List();

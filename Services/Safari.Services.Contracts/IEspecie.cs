@@ -9,7 +9,8 @@ namespace Safari.Services.Contracts
 {
     public interface IEspecie
     {
-        List<Species> Listar();
-        Species Agregar(Species especie);
+        List<Species> ToList();
+        Species Find(int? id);
+        Species Add(Species especie);
     }
 }

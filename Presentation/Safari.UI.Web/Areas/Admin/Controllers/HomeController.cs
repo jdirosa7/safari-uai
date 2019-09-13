@@ -6,11 +6,21 @@ using System.Web.Mvc;
 
 namespace Safari.UI.Web.Areas.Admin.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class HomeController : Controller
     {
+        //private ILoggingService _loggingService;
+
+        //public HomeController(ILoggingService loggingService)
+        //{
+        //    _loggingService = loggingService;
+        //}
+
+
         // GET: Admin/Home
         public ActionResult Index()
         {
+            //_loggingService.Log("message");
             return View();
         }
     }
