@@ -197,19 +197,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201909121853599_InitialCreate.cs" />
-    <Compile Include="Migrations\201909121853599_InitialCreate.Designer.cs">
-      <DependentUpon>201909121853599_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909121909189_Init.cs" />
-    <Compile Include="Migrations\201909121909189_Init.Designer.cs">
-      <DependentUpon>201909121909189_Init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201909121937321_Update.cs" />
-    <Compile Include="Migrations\201909121937321_Update.Designer.cs">
-      <DependentUpon>201909121937321_Update.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -217,6 +204,7 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Areas\Admin\Content\bootstrap-cosmo.css" />
     <Content Include="Areas\Admin\Content\bootstrap.css" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -238,7 +226,15 @@
     <Content Include="Areas\Admin\Views\web.config" />
     <Content Include="Areas\Admin\Views\_ViewStart.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Dashboard\Index.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Index.cshtml" />
+    <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Images\facebook.png" />
+    <Content Include="Images\instagram.png" />
+    <Content Include="Images\publicidad1.png" />
+    <Content Include="Images\publicidad2.png" />
+    <Content Include="Images\youtube.png" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
@@ -339,8 +335,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Admin\Views\Dashboard\" />
-    <Folder Include="Areas\Admin\Views\Home\" />
     <Folder Include="Views\MovementType\" />
     <Folder Include="Views\ServiceType\" />
   </ItemGroup>
@@ -369,17 +363,6 @@
       <Project>{7B34EC89-2823-4817-ADAD-942A08C1AC24}</Project>
       <Name>Safari.UI.Process</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201909121853599_InitialCreate.resx">
-      <DependentUpon>201909121853599_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909121909189_Init.resx">
-      <DependentUpon>201909121909189_Init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201909121937321_Update.resx">
-      <DependentUpon>201909121937321_Update.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

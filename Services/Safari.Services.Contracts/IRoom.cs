@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Safari.Services.Contracts
 {
-    public interface IEspecie
+    public interface IRoom
     {
-        List<Species> ToList();
-        Species Find(int id);
-        Species Add(Species especie);
-        Species Update(int id, Species especie);
+        List<Room> ToList();
+        Room Find(int id);
+        Room Add(Room room);
+        Room Update(int id, Room room);
         void Delete(int id);
     }
 }

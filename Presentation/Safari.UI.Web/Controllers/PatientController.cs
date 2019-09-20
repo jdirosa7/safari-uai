@@ -9,6 +9,7 @@ namespace Safari.UI.Web.Controllers
     public class PatientController : Controller
     {
         // GET: Patient
+        [Route("pacientes", Name = "PatientControllerRouteIndex")]
         public ActionResult Index()
         {
             return View();

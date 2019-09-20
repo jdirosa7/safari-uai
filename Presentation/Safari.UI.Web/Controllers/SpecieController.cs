@@ -1,6 +1,7 @@
 ﻿using Safari.Business;
 using Safari.Entities;
 using Safari.Services;
+using Safari.Services.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,18 +13,38 @@ namespace Safari.UI.Web.Controllers
     //[Authorize]//Securizo que no se pueda acceder a ninguna vista o controlador si no estoy autenticado
     public class SpecieController : Controller
     {
+        private IEspecie db = new EspecieService();
+
+        //public SpecieController(IEspecie iEspecie)
+        //{
+        //    db = iEspecie;
+        //}
+
         // GET: Especie
+        [Route("especies", Name = "SpecieControllerRouteIndex")]
         public ActionResult Index()
         {
-            var especieSC = new EspecieService();
-            var especies = especieSC.Listar();
+            var especies = db.ToList();
             return View(especies);
         }
 
         // GET: Especie/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            try
+            {
+                Species especie = db.Find(id);
+                if (especie == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(especie);
+            }
+            catch (Exception ex)
+            {                
+                return View("Index");
+            }
         }
 
         // GET: Especie/Create
@@ -38,8 +59,7 @@ namespace Safari.UI.Web.Controllers
         {
             try
             {
-                var especieSC = new EspecieService();
-                var model = especieSC.Agregar(especie);
+                var model = db.Add(especie);
                 return RedirectToAction("Index");
             }
             catch
@@ -51,17 +71,23 @@ namespace Safari.UI.Web.Controllers
         // GET: Especie/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Species especie = db.Find(id);
+            if (especie == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(especie);
         }
 
         // POST: Especie/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Species especie)
         {
             try
             {
                 // TODO: Add update logic here
-
+                especie = db.Update(id, especie);
                 return RedirectToAction("Index");
             }
             catch
@@ -73,17 +99,23 @@ namespace Safari.UI.Web.Controllers
         // GET: Especie/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Species especie = db.Find(id);
+            if (especie == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(especie);
         }
 
         // POST: Especie/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, Species especie)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                db.Delete(id);
                 return RedirectToAction("Index");
             }
             catch

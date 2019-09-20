@@ -9,6 +9,7 @@ namespace Safari.UI.Web.Controllers
     public class RoomController : Controller
     {
         // GET: Room
+        [Route("consultorios", Name = "RoomControllerRouteIndex")]
         public ActionResult Index()
         {
             return View();

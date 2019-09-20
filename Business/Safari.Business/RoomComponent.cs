@@ -10,33 +10,36 @@ namespace Safari.Business
 {
     public class RoomComponent
     {
+        RoomDAC dac = new RoomDAC();
+
         public Room Add(Room room)
         {
             Room result = default(Room);
-            var roomDAC = new RoomDAC();
-
-            result = roomDAC.Create(room);
+            
+            result = dac.Create(room);
             return result;
         }
 
         public void Update(Room room)
         {
-            var roomDAC = new RoomDAC();
-            roomDAC.Update(room);
+            dac.Update(room);
         }
 
         public void Delete(int id)
         {
-            var roomDAC = new RoomDAC();
-            roomDAC.Delete(id);
+            dac.Delete(id);
+        }
+
+        public Room Find(int id)
+        {
+            return dac.ReadBy(id);
         }
 
         public List<Room> List()
         {
             List<Room> result = default(List<Room>);
 
-            var roomDAC = new RoomDAC();
-            result = roomDAC.Read();
+            result = dac.Read();
             return result;
         }
     }

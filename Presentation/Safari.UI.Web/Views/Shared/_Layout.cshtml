@@ -6,6 +6,7 @@
     <title>@ViewBag.Title - @Application.Name</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/Site.css" rel="stylesheet" />
 
     <meta name="description" content="@ViewBag.Description">
     @* Author - (Optional) Used by search engines. The author of the page. *@
@@ -43,8 +44,12 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-                    <li><a href="/acerca-de-nosotros/">¿Quienes somos?</a></li>
+                    <li><a href="/clientes/">Clientes</a></li>
+                    <li><a href="/especies/">Especies</a></li>
+                    <li><a href="/pacientes/">Mascotas</a></li>
+                    <li><a href="/consultorios/">Consultorios</a></li>
+                    <li><a href="/doctores/">Nuestros doctores</a></li>
+                    <li><a href="/turnos/">Ver turnos</a></li>
                     <li><a href="/contacto/">Contacto</a></li>
                 </ul>
                 @Html.Partial("_MenuPartial")
@@ -52,13 +57,62 @@
             </div>
         </div>
     </div>
-    <div class="container body-content">
+    @*<div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - @Application.ShortName</p>
-        </footer>
-    </div>
+    </div>*@
+
+    <section class="content container body-content">
+        @RenderBody()
+    </section>
+
+    <aside>
+        @RenderSection("Aside", false)
+    </aside>
+
+    <footer class="page-footer font-small blue pt-4">
+        <div class="container-fluid text-center text-md-left">
+            <div class="row">
+                <div class="col-md-3 mt-md-0 mt-3">
+                    <a href="" target="_self">
+                        <div class="title">Nosotros</div>
+                    </a>
+                </div>
+                <div class="col-md-3 mt-md-0 mt-3">
+                    <div class="title">Ventas y consultas</div>
+                    <div class="informacion">
+                        <p>Atención telefónica:</p>
+                        <p>0810-220-2345</p>
+                        <p>Lunes a Viernes de 9 a 20 hs</p>
+                        <p>Sábados de 9 a 13 hs</p>
+                        <p>Feriados de 10 a 15 hs</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mt-md-0 mt-3">
+                    <div class="title">Redes Sociales</div>
+                    <div class="informacion">
+                        <a href="" target="_blank">
+                            <img src="~/Images/facebook.png">
+                        </a>
+                        <a href="" target="_blank">
+                            <img src="~/Images/youtube.png" />
+                        </a>
+                        <a href="" target="_blank">
+                            <img src="~/Images/instagram.png" />
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-3 mt-md-0 mt-3">
+                    <a href="" target="_self">
+                        <div class="title">Sucursales</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright text-center py-3">
+            © 2018 Copyright - @DateTime.Now.Year - Safari
+        </div>
+    </footer>
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")

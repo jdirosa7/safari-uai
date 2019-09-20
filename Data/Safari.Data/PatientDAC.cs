@@ -1,6 +1,9 @@
-﻿using Safari.Entities;
+﻿using Microsoft.Practices.EnterpriseLibrary.Data;
+using Safari.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,29 +12,106 @@ namespace Safari.Data
 {
     public class PatientDAC : DataAccessComponent, IRepository<Patient>
     {
-        public Patient Create(Patient entity)
+        public Patient Create(Patient patient)
         {
-            throw new NotImplementedException();
-        }
+            const string SQL_STATEMENT = "INSERT INTO Paciente ([Nombre],[FechaNacimiento],[Observacion],[ClientId]," +
+                "[EspecieId])" +
+                " VALUES(@Nombre,@FechaNacimiento,@Observacion,@ClientId,@EspecieId); SELECT SCOPE_IDENTITY();";
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
+            var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
+            using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
+            {
+                db.AddInParameter(cmd, "@Nombre", DbType.AnsiString, patient.Name);
+                db.AddInParameter(cmd, "@FechaNacimiento", DbType.AnsiString, patient.BirthDate);
+                db.AddInParameter(cmd, "@Observacion", DbType.AnsiString, patient.Observation);
+                db.AddInParameter(cmd, "@ClientId", DbType.AnsiString, patient.ClientId);
+                db.AddInParameter(cmd, "@EspecieId", DbType.AnsiString, patient.SpecieId);
+                patient.Id = Convert.ToInt32(db.ExecuteScalar(cmd));
+            }
+            return patient;
         }
 
         public List<Patient> Read()
         {
-            throw new NotImplementedException();
+            const string SQL_STATEMENT = "SELECT [Id], [Nombre], [FechaNacimiento], [Observacion]," +
+                " [ClientId], [EspecieId] FROM Paciente ";
+
+            List<Patient> result = new List<Patient>();
+            var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
+            using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
+            {
+                using (IDataReader dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        Patient patient = LoadPatient(dr);
+                        result.Add(patient);
+                    }
+                }
+            }
+            return result;
         }
 
         public Patient ReadBy(int id)
         {
-            throw new NotImplementedException();
+            const string SQL_STATEMENT = "SELECT [Id], [Nombre], [FechaNacimiento], [Observacion]," +
+                " [ClientId], [EspecieId] FROM Paciente WHERE [Id]=@Id ";
+            Patient patient = null;
+
+            var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
+            using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
+            {
+                db.AddInParameter(cmd, "@Id", DbType.Int32, id);
+                using (IDataReader dr = db.ExecuteReader(cmd))
+                {
+                    if (dr.Read())
+                    {
+                        patient = LoadPatient(dr);
+                    }
+                }
+            }
+            return patient;
         }
 
-        public void Update(Patient entity)
+        public void Update(Patient patient)
         {
-            throw new NotImplementedException();
+            const string SQL_STATEMENT = "UPDATE Paciente SET [Nombre]= @Nombre, [FechaNacimiento]=@FechaNacimiento, " +
+                "[Observacion]= @Observacion, [ClientId]= @ClientId, [EspecieId]= @EspecieId WHERE [Id]= @Id ";
+
+            var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
+            using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
+            {
+                db.AddInParameter(cmd, "@Nombre", DbType.AnsiString, patient.Name);
+                db.AddInParameter(cmd, "@FechaNacimiento", DbType.AnsiString, patient.BirthDate);
+                db.AddInParameter(cmd, "@Observacion", DbType.AnsiString, patient.Observation);
+                db.AddInParameter(cmd, "@ClientId", DbType.AnsiString, patient.ClientId);
+                db.AddInParameter(cmd, "@EspecieId", DbType.AnsiString, patient.SpecieId);
+                db.AddInParameter(cmd, "@Id", DbType.Int32, patient.Id);
+                db.ExecuteNonQuery(cmd);
+            }
+        }
+
+        public void Delete(int id)
+        {
+            const string SQL_STATEMENT = "DELETE Paciente WHERE [Id]= @Id ";
+            var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
+            using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
+            {
+                db.AddInParameter(cmd, "@Id", DbType.Int32, id);
+                db.ExecuteNonQuery(cmd);
+            }
+        }
+
+        private Patient LoadPatient(IDataReader dr)
+        {
+            Patient patient = new Patient();
+            patient.Id = GetDataValue<int>(dr, "Id");
+            patient.Name = GetDataValue<string>(dr, "Nombre");
+            patient.BirthDate = GetDataValue<DateTime>(dr, "FechaNacimiento");
+            patient.Observation = GetDataValue<string>(dr, "Observacion");
+            patient.ClientId = GetDataValue<int>(dr, "ClientId");
+            patient.SpecieId = GetDataValue<int>(dr, "EspecieId");
+            return patient;
         }
     }
 }

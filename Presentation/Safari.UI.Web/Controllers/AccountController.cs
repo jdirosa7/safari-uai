@@ -73,21 +73,21 @@ namespace Safari.UI.Web.Controllers
                 return View(model);
             }
 
-            var user = await UserManager.FindAsync(model.UserName, model.Password); if (user != null)
-            {
-                if (user.EmailConfirmed == true)
-                {
-                    await SignInAsync(user, model.RememberMe); return RedirectToLocal(returnUrl);
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Confirm Email Address.");
-                }
-            }
-            else
-            {
-                ModelState.AddModelError("", "Invalid username or password.");
-            }
+            //var user = await UserManager.FindAsync(model.UserName, model.Password); if (user != null)
+            //{
+            //    if (user.EmailConfirmed == true)
+            //    {
+            //        await SignInAsync(user, model.RememberMe); return RedirectToLocal(returnUrl);
+            //    }
+            //    else
+            //    {
+            //        ModelState.AddModelError("", "Confirm Email Address.");
+            //    }
+            //}
+            //else
+            //{
+            //    ModelState.AddModelError("", "Invalid username or password.");
+            //}
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true

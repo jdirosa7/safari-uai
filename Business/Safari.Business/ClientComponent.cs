@@ -10,10 +10,12 @@ namespace Safari.Business
 {
     public class ClientComponent
     {
+
+        ClientDAC dac = new ClientDAC();
+
         public Client Add(Client client)
         {
             Client result = default(Client);
-            var dac = new ClientDAC();
 
             result = dac.Create(client);
             return result;
@@ -21,21 +23,26 @@ namespace Safari.Business
 
         public void Update(Client client)
         {
-            var dac = new ClientDAC();
             dac.Update(client);
         }
 
         public void Delete(int id)
-        {
-            var dac = new ClientDAC();
+        {            
             dac.Delete(id);
+        }
+
+        public Client Find(int id)
+        {
+            Client result = default(Client);
+
+            result = dac.ReadBy(id);
+            return result;
         }
 
         public List<Client> List()
         {
             List<Client> result = default(List<Client>);
 
-            var dac = new ClientDAC();
             result = dac.Read();
             return result;
         }

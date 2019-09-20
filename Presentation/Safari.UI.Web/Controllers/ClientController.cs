@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Safari.Entities;
+using Safari.Services;
+using Safari.Services.Contracts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,16 +11,39 @@ namespace Safari.UI.Web.Controllers
 {
     public class ClientController : Controller
     {
+        private ICliente db = new ClienteService();
+
+        //public ClientController(ICliente iCliente)
+        //{
+        //    db = iCliente;
+        //}
+
+
         // GET: Client
+        [Route("clientes", Name = "ClientControllerRouteIndex")]
         public ActionResult Index()
         {
-            return View();
+            var clientes = db.ToList();
+            return View(clientes);
         }
 
         // GET: Client/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            try
+            {
+                Client cliente = db.Find(id);
+                if (cliente == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(cliente);
+            }
+            catch (Exception ex)
+            {
+                return View("Index");
+            }
         }
 
         // GET: Client/Create
@@ -28,15 +54,14 @@ namespace Safari.UI.Web.Controllers
 
         // POST: Client/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Client cliente)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                var model = db.Add(cliente);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
                 return View();
             }
@@ -45,17 +70,23 @@ namespace Safari.UI.Web.Controllers
         // GET: Client/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Client cliente = db.Find(id);
+            if (cliente == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(cliente);
         }
 
         // POST: Client/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Client cliente)
         {
             try
             {
                 // TODO: Add update logic here
-
+                cliente = db.Update(id, cliente);
                 return RedirectToAction("Index");
             }
             catch
@@ -67,17 +98,23 @@ namespace Safari.UI.Web.Controllers
         // GET: Client/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Client cliente = db.Find(id);
+            if (cliente == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(cliente);
         }
 
         // POST: Client/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, Client cliente)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                db.Delete(id);
                 return RedirectToAction("Index");
             }
             catch

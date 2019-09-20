@@ -10,33 +10,40 @@ namespace Safari.Business
 {
     public partial class SpecieComponent
     {
+        SpecieDAC dac = new SpecieDAC();
+
+
         public Species Add(Species especie)
         {
             Species result = default(Species);
-            var especieDAC = new SpecieDAC();
 
-            result = especieDAC.Create(especie);
+            result = dac.Create(especie);
             return result;
         }
 
         public void Update(Species especie)
         {
-            var especieDAC = new SpecieDAC();
-            especieDAC.Update(especie);
+            dac.Update(especie);
         }
 
         public void Delete(int id)
         {
-            var especieDAC = new SpecieDAC();
-            especieDAC.Delete(id);
+            dac.Delete(id);
+        }
+
+        public Species Find(int id)
+        {
+            Species result = default(Species);
+
+            result = dac.ReadBy(id);
+            return result;
         }
 
         public List<Species> List()
         {
             List<Species> result = default(List<Species>);
 
-            var especieDAC = new SpecieDAC();
-            result = especieDAC.Read();
+            result = dac.Read();
             return result;
         }
     }

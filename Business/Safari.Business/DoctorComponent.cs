@@ -10,10 +10,11 @@ namespace Safari.Business
 {
     public class DoctorComponent
     {
+        DoctorDAC dac = new DoctorDAC();
+
         public Doctor Add(Doctor doctor)
         {
             Doctor result = default(Doctor);
-            var dac = new DoctorDAC();
 
             result = dac.Create(doctor);
             return result;
@@ -21,21 +22,26 @@ namespace Safari.Business
 
         public void Update(Doctor doctor)
         {
-            var dac = new DoctorDAC();
             dac.Update(doctor);
         }
 
         public void Delete(int id)
         {
-            var dac = new DoctorDAC();
             dac.Delete(id);
+        }
+
+        public Doctor Find(int id)
+        {
+            Doctor result = default(Doctor);
+
+            result = dac.ReadBy(id);
+            return result;
         }
 
         public List<Doctor> List()
         {
             List<Doctor> result = default(List<Doctor>);
 
-            var dac = new DoctorDAC();
             result = dac.Read();
             return result;
         }

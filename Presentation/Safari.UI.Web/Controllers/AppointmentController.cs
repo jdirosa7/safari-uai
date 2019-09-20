@@ -9,6 +9,7 @@ namespace Safari.UI.Web.Controllers
     public class AppointmentController : Controller
     {
         // GET: Appointment
+        [Route("turnos", Name = "AppointmentControllerRouteIndex")]
         public ActionResult Index()
         {
             return View();

@@ -40,8 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ICliente.cs" />
+    <Compile Include="IDoctor.cs" />
     <Compile Include="IEspecie.cs" />
     <Compile Include="INotificationAction.cs" />
+    <Compile Include="IPaciente.cs" />
+    <Compile Include="IRoom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

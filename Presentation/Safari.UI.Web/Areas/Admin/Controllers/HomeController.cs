@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace Safari.UI.Web.Areas.Admin.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    
     public class HomeController : Controller
     {
         //private ILoggingService _loggingService;

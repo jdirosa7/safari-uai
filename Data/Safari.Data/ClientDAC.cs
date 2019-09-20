@@ -1,6 +1,9 @@
-﻿using Safari.Entities;
+﻿using Microsoft.Practices.EnterpriseLibrary.Data;
+using Safari.Entities;
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,29 +12,112 @@ namespace Safari.Data
 {
     public class ClientDAC : DataAccessComponent, IRepository<Client>
     {
-        public Client Create(Client entity)
+        public Client Create(Client client)
         {
-            throw new NotImplementedException();
-        }
+            const string SQL_STATEMENT = "INSERT INTO Cliente ([Apellido],[Nombre],[Email],[Telefono],[Url]," +
+                "[FechaNacimiento],[Domicilio]) VALUES(@Apellido,@Nombre,@Email,@Telefono,@Url,@FechaNacimiento,@Domicilio); SELECT SCOPE_IDENTITY();";
 
-        public void Delete(int id)
-        {
-            throw new NotImplementedException();
+            var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
+            using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
+            {
+                db.AddInParameter(cmd, "@Apellido", DbType.AnsiString, client.LastName);
+                db.AddInParameter(cmd, "@Nombre", DbType.AnsiString, client.Name);
+                db.AddInParameter(cmd, "@Email", DbType.AnsiString, client.Email);
+                db.AddInParameter(cmd, "@Telefono", DbType.AnsiString, client.Phone);
+                db.AddInParameter(cmd, "@Url", DbType.AnsiString, client.URL);
+                db.AddInParameter(cmd, "@FechaNacimiento", DbType.AnsiString, client.BirthDate);
+                db.AddInParameter(cmd, "@Domicilio", DbType.AnsiString, client.Address);
+                client.Id = Convert.ToInt32(db.ExecuteScalar(cmd));
+            }
+            return client;
         }
 
         public List<Client> Read()
         {
-            throw new NotImplementedException();
+            const string SQL_STATEMENT = "SELECT [Id], [Nombre], [Apellido], [Telefono], [Email], [Url]," +
+                " [FechaNacimiento], [Domicilio] FROM Cliente ";
+
+            List<Client> result = new List<Client>();
+            var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
+            using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
+            {
+                using (IDataReader dr = db.ExecuteReader(cmd))
+                {
+                    while (dr.Read())
+                    {
+                        Client client = LoadCliente(dr);
+                        result.Add(client);
+                    }
+                }
+            }
+            return result;
         }
 
         public Client ReadBy(int id)
         {
-            throw new NotImplementedException();
+            const string SQL_STATEMENT = "SELECT [Id], [Nombre], [Apellido], [Email], [Telefono], [Url]," +
+                "[FechaNacimiento], [Domicilio] FROM Cliente WHERE [Id]=@Id ";
+            Client client = null;
+
+            var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
+            using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
+            {
+                db.AddInParameter(cmd, "@Id", DbType.Int32, id);
+                using (IDataReader dr = db.ExecuteReader(cmd))
+                {
+                    if (dr.Read())
+                    {
+                        client = LoadCliente(dr);
+                    }
+                }
+            }
+            return client;
         }
 
-        public void Update(Client entity)
+        public void Update(Client client)
         {
-            throw new NotImplementedException();
+            const string SQL_STATEMENT = "UPDATE Cliente SET [Nombre]= @Nombre, [Apellido]=@Apellido, " +
+                "[Email]= @Email, [Telefono]= @Telefono, [Url]= @Url, [FechaNacimiento]= @FechaNacimiento," +
+                "[Domicilio]= @Domicilio WHERE [Id]= @Id ";
+
+            var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
+            using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
+            {
+                db.AddInParameter(cmd, "@Apellido", DbType.AnsiString, client.LastName);
+                db.AddInParameter(cmd, "@Nombre", DbType.AnsiString, client.Name);
+                db.AddInParameter(cmd, "@Email", DbType.AnsiString, client.Email);
+                db.AddInParameter(cmd, "@Telefono", DbType.AnsiString, client.Phone);
+                db.AddInParameter(cmd, "@Url", DbType.AnsiString, client.URL);
+                db.AddInParameter(cmd, "@FechaNacimiento", DbType.AnsiString, client.BirthDate);
+                db.AddInParameter(cmd, "@Domicilio", DbType.AnsiString, client.Address);
+                db.AddInParameter(cmd, "@Id", DbType.Int32, client.Id);
+                db.ExecuteNonQuery(cmd);
+            }
+        }
+
+        public void Delete(int id)
+        {
+            const string SQL_STATEMENT = "DELETE Cliente WHERE [Id]= @Id ";
+            var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
+            using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
+            {
+                db.AddInParameter(cmd, "@Id", DbType.Int32, id);
+                db.ExecuteNonQuery(cmd);
+            }
+        }
+
+        private Client LoadCliente(IDataReader dr)
+        {
+            Client client = new Client();
+            client.Id = GetDataValue<int>(dr, "Id");
+            client.Name = GetDataValue<string>(dr, "Nombre");
+            client.LastName = GetDataValue<string>(dr, "Apellido");
+            client.Email = GetDataValue<string>(dr, "Email");
+            client.Phone = GetDataValue<string>(dr, "Telefono");
+            client.URL = GetDataValue<string>(dr, "Url");
+            client.BirthDate = GetDataValue<DateTime>(dr, "FechaNacimiento");
+            client.Address = GetDataValue<string>(dr, "Domicilio");
+            return client;
         }
     }
 }

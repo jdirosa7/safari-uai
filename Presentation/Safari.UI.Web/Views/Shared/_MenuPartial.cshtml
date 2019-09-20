@@ -1,6 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
 @if(Request.IsAuthenticated){
-    <ul class="nav navbar-nav">
-        <li>@Html.ActionLink("Especie", "Index", "Home")</li>        
-    </ul>
+<ul class="nav navbar-nav">
+    @*<li>@Html.ActionLink("Dashboard", "Index", "Home")</li>*@
+    <li><a href="~/Admin/Dashboard/Index">Dashboard</a></li>
+</ul>
 }

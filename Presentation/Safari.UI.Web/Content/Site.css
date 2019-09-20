@@ -22,3 +22,54 @@ select,
 textarea {
     max-width: 280px;
 }
+
+
+.title {
+    color: #0058a4;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.informacion > p{
+    color: #767676;
+    font-size: 14px;
+}
+
+.footer-copyright{
+    height: 50px;
+    background-color: #5c2040;
+    color:#FFF;
+    padding-top: 15px;
+}
+
+.footer-copyright-admin {
+    height: 50px;
+    background-color: #222222;
+    color: #FFF;
+    padding-top: 15px;
+}
+
+.container-fluid {
+    background-color: #f0f0f0;
+    padding-top: 10px;
+}
+
+footer {
+    /*position: fixed;*/
+    bottom: 0;
+    left: 0;
+    right: 0;
+    clear: both;
+}
+
+.content {
+    width: 75%;
+    float: left;
+}
+
+aside {
+    float: right;
+    width: 25%;
+    padding: 20px;
+}

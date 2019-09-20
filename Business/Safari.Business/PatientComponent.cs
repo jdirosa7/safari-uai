@@ -10,33 +10,40 @@ namespace Safari.Business
 {
     public class PatientComponent
     {
+
+        PatientDAC dac = new PatientDAC();
+
         public Patient Add(Patient patient)
         {
-            Patient result = default(Patient);
-            var patientDAC = new PatientDAC();
+            Patient result = default(Patient);            
 
-            result = patientDAC.Create(patient);
+            result = dac.Create(patient);
             return result;
         }
 
         public void Update(Patient patient)
         {
-            var patientDAC = new PatientDAC();
-            patientDAC.Update(patient);
+            dac.Update(patient);
         }
 
         public void Delete(int id)
         {
-            var patientDAC = new PatientDAC();
-            patientDAC.Delete(id);
+            dac.Delete(id);
+        }
+
+        public Patient Find(int id)
+        {
+            Patient result = default(Patient);
+
+            result = dac.ReadBy(id);
+            return result;
         }
 
         public List<Patient> List()
         {
             List<Patient> result = default(List<Patient>);
 
-            var patientDAC = new PatientDAC();
-            result = patientDAC.Read();
+            result = dac.Read();
             return result;
         }
     }

@@ -26,6 +26,9 @@ namespace Safari.UI.Web
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-united.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/ContentAdmin/css").Include(
+                      "~/Areas/Admin/Content/bootstrap-cosmo.css"));
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Safari.UI.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Species species = db.Find(id);
+            Species species = db.Find(id.Value);
             if (species == null)
             {
                 return HttpNotFound();
@@ -74,7 +74,7 @@ namespace Safari.UI.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Species species = db.Find(id);
+            Species species = db.Find(id.Value);
             if (species == null)
             {
                 return HttpNotFound();
@@ -91,8 +91,7 @@ namespace Safari.UI.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(species).State = EntityState.Modified;
-                db.SaveChanges();
+                db.Update(species.Id, species);
                 return RedirectToAction("Index");
             }
             return View(species);
@@ -105,7 +104,7 @@ namespace Safari.UI.Web.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Species species = db.Find(id);
+            Species species = db.Find(id.Value);
             if (species == null)
             {
                 return HttpNotFound();
@@ -118,9 +117,7 @@ namespace Safari.UI.Web.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            Species species = db.Find(id);
-            db.Species.Remove(species);
-            db.SaveChanges();
+            db.Delete(id);
             return RedirectToAction("Index");
         }
 
