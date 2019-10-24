@@ -73,3 +73,17 @@ aside {
     width: 25%;
     padding: 20px;
 }
+
+
+.navbar-collapse, navigation {
+    padding-left: 0px !important;
+}
+
+nav{
+    margin-bottom: 0px !important;
+}
+
+.container-nav {
+    background-color: #e95420 !important;
+    padding-top: 0px !important;
+}

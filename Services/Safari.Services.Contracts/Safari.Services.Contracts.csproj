@@ -42,11 +42,14 @@
   <ItemGroup>
     <Compile Include="ICliente.cs" />
     <Compile Include="IDoctor.cs" />
+    <Compile Include="IEntityContract.cs" />
     <Compile Include="IEspecie.cs" />
     <Compile Include="INotificationAction.cs" />
     <Compile Include="IPaciente.cs" />
     <Compile Include="IRoom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Response\AllResponse.cs" />
+    <Compile Include="Response\FindResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Safari.Entities\Safari.Entities.csproj">

@@ -1,49 +1,60 @@
-﻿using Safari.Business;
-using Safari.Entities;
-using Safari.Services.Contracts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
+using System.Net.Http;
+using System.Net;
+using Safari.Services.Contracts;
+using Safari.Entities;
+using Safari.Business;
 
 namespace Safari.Services
 {
-    public class RoomService : IRoom
+    [RoutePrefix("rest/Room")]
+    public class RoomService : ApiController
     {
         RoomComponent bs = new RoomComponent();
-
-        public RoomService()
-        {
-
-        }
-
+        
+        [HttpPost]
+        [Route( "Add" )]
         public Room Add(Room room)
         {
             var model = bs.Add(room);
             return model;
         }
 
+        [HttpGet]
+        [Route("Remove/{id}")]
         public void Delete(int id)
         {
             bs.Delete(id);
         }
 
-        public Room Find(int id)
+        [HttpGet]
+        [Route("Find")]
+        public FindResponse Find(int id)
         {
-            return bs.Find(id);
+            var response = new FindResponse();
+            response.ResultRoom = bs.Find(id);
+            return response;
         }
 
-        public List<Room> ToList()
+        [HttpGet]
+        [Route( "All" )]
+        public AllResponse All()
         {
-            var rooms = bs.List();
-            return rooms;
+            var response = new AllResponse();
+            response.ResultRoom = bs.List();
+            return response;
         }
 
-        public Room Update(int id, Room room)
+        [HttpPost]
+        [Route("Edit")]
+        public void Edit(int id, Room room)
         {
             bs.Update(room);
-            return room;
         }
     }
 }

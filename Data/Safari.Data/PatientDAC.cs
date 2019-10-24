@@ -33,8 +33,9 @@ namespace Safari.Data
 
         public List<Patient> Read()
         {
-            const string SQL_STATEMENT = "SELECT [Id], [Nombre], [FechaNacimiento], [Observacion]," +
-                " [ClientId], [EspecieId] FROM Paciente ";
+            const string SQL_STATEMENT = "SELECT P.Id, P.Nombre, P.FechaNacimiento, P.Observacion," +
+                " P.ClienteId, P.EspecieId FROM Paciente P inner join Cliente on P.ClienteId = Cliente.Id " +
+                "inner join Especie on P.EspecieId = Especie.Id";
 
             List<Patient> result = new List<Patient>();
             var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);

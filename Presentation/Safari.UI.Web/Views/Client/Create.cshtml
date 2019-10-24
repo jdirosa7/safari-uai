@@ -1,17 +1,16 @@
 ﻿@model Safari.Entities.Client
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "";
 }
 
-<h2>Create</h2>
+<h2>Formulario alta de clientes</h2>
 
 @using (Html.BeginForm()) 
 {
     @Html.AntiForgeryToken()
     
     <div class="form-horizontal">
-        <h4>Client</h4>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
@@ -71,13 +70,12 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Create" class="btn btn-default" />
+            <div class="col-md-offset-2 col-md-1">
+                <input type="submit" value="Guardar" class="btn btn-success" />
+            </div>
+            <div class="col-md-1">
+                @Html.ActionLink("Cancelar", "Index", "Client", null, new { @class = "btn btn-danger" })
             </div>
         </div>
     </div>
 }
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>

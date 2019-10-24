@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Safari.Entities;
+using Safari.Services;
+using Safari.Services.Contracts;
+using Safari.UI.Process;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,17 +12,36 @@ namespace Safari.UI.Web.Controllers
 {
     public class RoomController : Controller
     {
+        //IRoom db = new RoomService();
+
+        RoomProcess roomProcess = new RoomProcess();
+
         // GET: Room
         [Route("consultorios", Name = "RoomControllerRouteIndex")]
         public ActionResult Index()
         {
-            return View();
+            //var rooms = db.ToList();
+            var rooms = roomProcess.SelectList();
+            return View(rooms);
         }
 
         // GET: Room/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            try
+            {
+                Room room = roomProcess.FindRoom(id);
+                if (room == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(room);
+            }
+            catch (Exception ex)
+            {
+                return View("Index");
+            }
         }
 
         // GET: Room/Create
@@ -29,15 +52,14 @@ namespace Safari.UI.Web.Controllers
 
         // POST: Room/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(Room room)
         {
             try
             {
-                // TODO: Add insert logic here
-
+                roomProcess.AddRoom(room);
                 return RedirectToAction("Index");
             }
-            catch
+            catch(Exception ex)
             {
                 return View();
             }
@@ -46,17 +68,23 @@ namespace Safari.UI.Web.Controllers
         // GET: Room/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Room room = roomProcess.FindRoom(id);
+            if (room == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(room);
         }
 
         // POST: Room/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(int id, Room room)
         {
             try
             {
                 // TODO: Add update logic here
-
+                roomProcess.EditRoom(room);
                 return RedirectToAction("Index");
             }
             catch
@@ -68,17 +96,23 @@ namespace Safari.UI.Web.Controllers
         // GET: Room/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Room room = roomProcess.FindRoom(id);
+            if (room == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(room);
         }
 
         // POST: Room/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id, Room room)
         {
             try
             {
                 // TODO: Add delete logic here
-
+                roomProcess.DeleteRoom(id);
                 return RedirectToAction("Index");
             }
             catch
