@@ -48,7 +48,9 @@
     <Compile Include="IPaciente.cs" />
     <Compile Include="IRoom.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Response\AddSpecieResponse.cs" />
     <Compile Include="Response\AllResponse.cs" />
+    <Compile Include="Response\AllSpeciesResponse.cs" />
     <Compile Include="Response\FindResponse.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -56,6 +58,9 @@
       <Project>{DED5F661-C299-47EB-AE50-B64BE8FEEBC9}</Project>
       <Name>Safari.Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Request\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
