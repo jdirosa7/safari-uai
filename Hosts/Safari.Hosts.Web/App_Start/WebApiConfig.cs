@@ -12,23 +12,32 @@ namespace Safari.Hosts.Web
     {
         public static void Register(HttpConfiguration config)
         {
-            // Web API configuration and services
+            //// Web API configuration and services
 
-            // Remove "Controller" suffix.
+            //// Remove "Controller" suffix.
+            //var suffix = typeof(DefaultHttpControllerSelector).GetField("ControllerSuffix", BindingFlags.Static | BindingFlags.Public);
+            //if (suffix != null) suffix.SetValue(null, string.Empty);
+
+            //config.Services.Replace(typeof(IHttpControllerTypeResolver),
+            //   new HttpServiceTypeResolver());
+
+            //// Web API routes
+            //config.MapHttpAttributeRoutes();
+
+            //config.Routes.MapHttpRoute(
+            //    name: "DefaultApi",
+            //    routeTemplate: "api/{controller}/{id}",
+            //    defaults: new { id = RouteParameter.Optional }
+            //);
             var suffix = typeof(DefaultHttpControllerSelector).GetField("ControllerSuffix", BindingFlags.Static | BindingFlags.Public);
             if (suffix != null) suffix.SetValue(null, string.Empty);
 
             config.Services.Replace(typeof(IHttpControllerTypeResolver),
-               new HttpServiceTypeResolver());
+                new HttpServiceTypeResolver());
 
-            // Web API routes
             config.MapHttpAttributeRoutes();
-
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+            var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
         }
     }
 }

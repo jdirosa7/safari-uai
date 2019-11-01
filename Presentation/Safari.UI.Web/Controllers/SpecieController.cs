@@ -2,6 +2,7 @@
 using Safari.Entities;
 using Safari.Services;
 using Safari.Services.Contracts;
+using Safari.UI.Process;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,13 +14,8 @@ namespace Safari.UI.Web.Controllers
     //[Authorize]//Securizo que no se pueda acceder a ninguna vista o controlador si no estoy autenticado
     public class SpecieController : Controller
     {
-        private IEspecie db = new EspecieService();
-
-        //public SpecieController(IEspecie iEspecie)
-        //{
-        //    db = iEspecie;
-        //}
-
+        SpecieProcess db = new SpecieProcess();
+        
         // GET: Especie
         [Route("especies", Name = "SpecieControllerRouteIndex")]
         public ActionResult Index()
@@ -59,7 +55,7 @@ namespace Safari.UI.Web.Controllers
         {
             try
             {
-                var model = db.Add(especie);
+                db.Add(especie);
                 return RedirectToAction("Index");
             }
             catch
@@ -87,7 +83,7 @@ namespace Safari.UI.Web.Controllers
             try
             {
                 // TODO: Add update logic here
-                especie = db.Update(id, especie);
+                db.Update(especie);
                 return RedirectToAction("Index");
             }
             catch

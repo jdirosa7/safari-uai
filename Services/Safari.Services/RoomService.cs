@@ -17,44 +17,6 @@ namespace Safari.Services
     {
         RoomComponent bs = new RoomComponent();
         
-        [HttpPost]
-        [Route( "Add" )]
-        public Room Add(Room room)
-        {
-            var model = bs.Add(room);
-            return model;
-        }
-
-        [HttpGet]
-        [Route("Remove/{id}")]
-        public void Delete(int id)
-        {
-            bs.Delete(id);
-        }
-
-        [HttpGet]
-        [Route("Find")]
-        public FindResponse Find(int id)
-        {
-            var response = new FindResponse();
-            response.ResultRoom = bs.Find(id);
-            return response;
-        }
-
-        [HttpGet]
-        [Route( "All" )]
-        public AllResponse All()
-        {
-            var response = new AllResponse();
-            response.ResultRoom = bs.List();
-            return response;
-        }
-
-        [HttpPost]
-        [Route("Edit")]
-        public void Edit(int id, Room room)
-        {
-            bs.Update(room);
-        }
+        
     }
 }

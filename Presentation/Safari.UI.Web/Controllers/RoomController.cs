@@ -21,7 +21,7 @@ namespace Safari.UI.Web.Controllers
         public ActionResult Index()
         {
             //var rooms = db.ToList();
-            var rooms = roomProcess.SelectList();
+            var rooms = roomProcess.ToList();
             return View(rooms);
         }
 
@@ -30,7 +30,7 @@ namespace Safari.UI.Web.Controllers
         {
             try
             {
-                Room room = roomProcess.FindRoom(id);
+                Room room = roomProcess.Find(id);
                 if (room == null)
                 {
                     return HttpNotFound();
@@ -56,7 +56,7 @@ namespace Safari.UI.Web.Controllers
         {
             try
             {
-                roomProcess.AddRoom(room);
+                roomProcess.Add(room);
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
@@ -68,7 +68,7 @@ namespace Safari.UI.Web.Controllers
         // GET: Room/Edit/5
         public ActionResult Edit(int id)
         {
-            Room room = roomProcess.FindRoom(id);
+            Room room = roomProcess.Find(id);
             if (room == null)
             {
                 return HttpNotFound();
@@ -84,7 +84,7 @@ namespace Safari.UI.Web.Controllers
             try
             {
                 // TODO: Add update logic here
-                roomProcess.EditRoom(room);
+                roomProcess.Update(room);
                 return RedirectToAction("Index");
             }
             catch
@@ -96,7 +96,7 @@ namespace Safari.UI.Web.Controllers
         // GET: Room/Delete/5
         public ActionResult Delete(int id)
         {
-            Room room = roomProcess.FindRoom(id);
+            Room room = roomProcess.Find(id);
             if (room == null)
             {
                 return HttpNotFound();
@@ -112,7 +112,7 @@ namespace Safari.UI.Web.Controllers
             try
             {
                 // TODO: Add delete logic here
-                roomProcess.DeleteRoom(id);
+                roomProcess.Delete(id);
                 return RedirectToAction("Index");
             }
             catch

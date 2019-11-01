@@ -12,18 +12,18 @@ using System.Web.Http;
 
 namespace Safari.Services.Http
 {
-    [RoutePrefix("api/specie")]
-    public class SpecieServiceHttp : ApiController
+    [RoutePrefix("api/room")]
+    public class RoomServiceHttp : ApiController
     {
         [HttpPost]
         [Route("add")]
-        public AddSpecieResponse add(AddSpecieRequest request)
+        public AddRoomResponse add(AddRoomRequest request)
         {
             try
             {
-                var response = new AddSpecieResponse();
-                var bc = new SpecieComponent();
-                response.Result = bc.Add(request.Specie);
+                var response = new AddRoomResponse();
+                var bc = new RoomComponent();
+                response.Result = bc.Add(request.Room);
                 return response;
             }
             catch (Exception ex)
@@ -39,16 +39,16 @@ namespace Safari.Services.Http
 
         [HttpGet]
         [Route("getAll")]
-        public AllSpeciesResponse getAll()
+        public AllRoomsResponse getAll()
         {
             try
             {
-                var response = new AllSpeciesResponse();
-                var bc = new SpecieComponent();
+                var response = new AllRoomsResponse();
+                var bc = new RoomComponent();
                 response.Result = bc.List();
 
                 return response;
-                
+
             }
             catch (Exception ex)
             {
@@ -63,13 +63,13 @@ namespace Safari.Services.Http
 
         [HttpGet]
         [Route("getById")]
-        public GetSpecieResponse getById(GetSpecieRequest request)
+        public GetRoomResponse getById(GetRoomRequest request)
         {
             try
             {
-                var response = new GetSpecieResponse();
-                var bc = new SpecieComponent();
-                response.Result = bc.Find(request.Specie.Id);
+                var response = new GetRoomResponse();
+                var bc = new RoomComponent();
+                response.Result = bc.Find(request.Room.Id);
                 return response;
             }
             catch (Exception ex)
@@ -85,13 +85,13 @@ namespace Safari.Services.Http
 
         [HttpPut]
         [Route("update")]
-        public void delete(UpdateSpecieRequest request)
+        public void delete(UpdateRoomRequest request)
         {
             try
             {
-                var response = new UpdateSpecieResponse();
-                var bc = new SpecieComponent();
-                bc.Update(request.Specie);
+                var response = new UpdateRoomResponse();
+                var bc = new RoomComponent();
+                bc.Update(request.Room);
             }
             catch (Exception ex)
             {
@@ -106,12 +106,12 @@ namespace Safari.Services.Http
 
         [HttpDelete]
         [Route("delete")]
-        public void delete(DeleteSpecieRequest request)
+        public void delete(DeleteRoomRequest request)
         {
             try
             {
-                var response = new DeleteSpecieResponse();
-                var bc = new SpecieComponent();
+                var response = new DeleteRoomResponse();
+                var bc = new RoomComponent();
                 bc.Delete(request.Id);
             }
             catch (Exception ex)

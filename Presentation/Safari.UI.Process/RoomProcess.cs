@@ -1,5 +1,7 @@
 ﻿using Safari.Entities;
 using Safari.Services.Contracts;
+using Safari.Services.Contracts.Request;
+using Safari.Services.Contracts.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,37 +12,39 @@ namespace Safari.UI.Process
 {
     public class RoomProcess : ProcessComponent
     {
-        public List<Room> SelectList()
+        public List<Room> ToList()
         {
-            var response = HttpGet<AllResponse>("rest/Room/All", new Dictionary<string, object>(), MediaType.Json);
-            return response.ResultRoom;
+            var response = HttpGet<AllRoomsResponse>("api/specie/getAll", new Dictionary<string, object>(), MediaType.Json);
+            return response.Result;
         }
 
-        public void AddRoom(Room room)
+        public void Add(Room room)
         {
-
-            ProcessComponent.HttpPost<Room>("rest/Room/Add", room, MediaType.Json);
+            var request = new AddRoomRequest();
+            request.Room = room;
+            var response = HttpPost<AddRoomRequest>("api/specie/add", request, MediaType.Json);
         }
 
-        public Room FindRoom(int id)
+        public Room Find(int id)
         {
-            var dic = new Dictionary<string, object>();
-            dic.Add("Id", id);
-            var response = HttpGet<FindResponse>("rest/Room/Find", dic, MediaType.Json);
-            return response.ResultRoom;
-
+            Dictionary<string, object> dir = new Dictionary<string, object>();
+            dir.Add("Id", id);
+            var response = HttpGet<GetRoomResponse>("api/specie/getById", dir, MediaType.Json);
+            return response.Result;
         }
 
-        public void EditRoom(Room Client)
+        public void Update(Room room)
         {
-            ProcessComponent.HttpPost<Room>("rest/Room/Edit", Client, MediaType.Json);
+            var request = new UpdateRoomRequest();
+            request.Room = room;
+            var response = HttpPost<UpdateRoomRequest>("api/specie/update", request, MediaType.Json);
         }
 
-        public void DeleteRoom(int id)
+        public void Delete(int id)
         {
-            var dic = new Dictionary<string, object>();
-            dic.Add("Id", id);
-            ProcessComponent.HttpGet<Room>("rest/Room/Remove/{id}", dic, MediaType.Json);
+            var request = new DeleteSpecieRequest();
+            request.Id = id;
+            var response = HttpPost<DeleteSpecieRequest>("api/specie/delete", request, MediaType.Json);
         }
     }
 }
