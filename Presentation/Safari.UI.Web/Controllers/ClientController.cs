@@ -1,6 +1,7 @@
 ﻿using Safari.Entities;
 using Safari.Services;
 using Safari.Services.Contracts;
+using Safari.UI.Process;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +12,7 @@ namespace Safari.UI.Web.Controllers
 {
     public class ClientController : Controller
     {
-        private ICliente db = new ClienteService();
+        ClientProcess db = new ClientProcess();
 
         //public ClientController(ICliente iCliente)
         //{
@@ -58,7 +59,7 @@ namespace Safari.UI.Web.Controllers
         {
             try
             {
-                var model = db.Add(cliente);
+                db.Add(cliente);
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
@@ -86,7 +87,7 @@ namespace Safari.UI.Web.Controllers
             try
             {
                 // TODO: Add update logic here
-                cliente = db.Update(id, cliente);
+                db.Update(cliente);
                 return RedirectToAction("Index");
             }
             catch

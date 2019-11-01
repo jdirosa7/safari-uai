@@ -11,8 +11,8 @@ namespace Safari.Services.Contracts
     {
         List<Doctor> ToList();
         Doctor Find(int id);
-        Doctor Add(Doctor especie);
-        Doctor Update(int id, Doctor doctor);
+        Doctor Add(Doctor doctor);
+        Doctor Update(Doctor doctor);
         void Delete(int id);
     }
 }

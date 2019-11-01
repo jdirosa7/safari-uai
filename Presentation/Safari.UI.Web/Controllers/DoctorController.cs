@@ -1,4 +1,5 @@
 ﻿using Safari.Entities;
+using Safari.UI.Process;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +10,33 @@ namespace Safari.UI.Web.Controllers
 {
     public class DoctorController : Controller
     {
+        DoctorProcess db = new DoctorProcess();
+
         // GET: Doctor
         [Route("doctores", Name = "DoctorControllerRouteIndex")]
         public ActionResult Index()
         {
-            return View();
+            var doctors = db.ToList();
+            return View(doctors);
         }
 
         // GET: Doctor/Details/5
         public ActionResult Details(int id)
         {
-            return View();
+            try
+            {
+                Doctor doctor = db.Find(id);
+                if (doctor == null)
+                {
+                    return HttpNotFound();
+                }
+
+                return View(doctor);
+            }
+            catch (Exception ex)
+            {
+                return View("Index");
+            }
         }
 
         // GET: Doctor/Create
@@ -34,9 +51,15 @@ namespace Safari.UI.Web.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
+                try
+                {
+                    db.Add(doctor);
+                    return RedirectToAction("Index");
+                }
+                catch
+                {
+                    return View();
+                }
             }
             catch
             {
@@ -47,7 +70,13 @@ namespace Safari.UI.Web.Controllers
         // GET: Doctor/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            Doctor doctor = db.Find(id);
+            if (doctor == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(doctor);
         }
 
         // POST: Doctor/Edit/5
@@ -57,7 +86,7 @@ namespace Safari.UI.Web.Controllers
             try
             {
                 // TODO: Add update logic here
-
+                db.Update(doctor);
                 return RedirectToAction("Index");
             }
             catch
@@ -69,7 +98,13 @@ namespace Safari.UI.Web.Controllers
         // GET: Doctor/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Doctor doctor = db.Find(id);
+            if (doctor == null)
+            {
+                return HttpNotFound();
+            }
+
+            return View(doctor);
         }
 
         // POST: Doctor/Delete/5
@@ -79,7 +114,7 @@ namespace Safari.UI.Web.Controllers
             try
             {
                 // TODO: Add delete logic here
-
+                db.Delete(id);
                 return RedirectToAction("Index");
             }
             catch

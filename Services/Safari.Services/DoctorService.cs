@@ -40,7 +40,7 @@ namespace Safari.Services
             return especies;
         }
 
-        public Doctor Update(int id, Doctor doctor)
+        public Doctor Update(Doctor doctor)
         {
             bs.Update(doctor);
             return doctor;

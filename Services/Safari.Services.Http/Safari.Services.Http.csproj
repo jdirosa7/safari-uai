@@ -55,6 +55,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppointmentServiceHttp.cs" />
+    <Compile Include="ClientServiceHttp.cs" />
+    <Compile Include="DoctorServiceHttp.cs" />
+    <Compile Include="PatientServiceHttp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoomServiceHttp.cs" />
     <Compile Include="SpecieServiceHttp.cs" />

@@ -31,6 +31,15 @@ namespace Safari.Business
             dac.Delete(id);
         }
 
+        public Appointment Find(int id)
+        {
+            Appointment result = default(Appointment);
+            var dac = new AppointmentDAC();
+
+            result = dac.ReadBy(id);
+            return result;
+        }
+
         public List<Appointment> List()
         {
             List<Appointment> result = default(List<Appointment>);

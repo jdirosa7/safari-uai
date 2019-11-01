@@ -1,6 +1,7 @@
 ﻿using Safari.Entities;
 using Safari.Services;
 using Safari.Services.Contracts;
+using Safari.UI.Process;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace Safari.UI.Web.Controllers
 {
     public class PatientController : Controller
     {
-        private IPaciente db = new PacienteService();
-        private ICliente dbClient = new ClienteService();
-        private IEspecie dbSpecie = new EspecieService();
+        PatientProcess db = new PatientProcess();
+        ClientProcess dbClient = new ClientProcess();
+        SpecieProcess dbSpecie = new SpecieProcess();
 
         // GET: Patient
         [Route("pacientes", Name = "PatientControllerRouteIndex")]
@@ -87,7 +88,7 @@ namespace Safari.UI.Web.Controllers
             try
             {
                 // TODO: Add update logic here
-                paciente = db.Update(id, paciente);
+                paciente = db.Update(paciente);
                 return RedirectToAction("Index");
             }
             catch

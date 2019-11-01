@@ -39,7 +39,7 @@ namespace Safari.Services
             return pacientes;
         }
 
-        public Patient Update(int id, Patient paciente)
+        public Patient Update(Patient paciente)
         {
             bs.Update(paciente);
             return paciente;

@@ -14,7 +14,7 @@ namespace Safari.UI.Process
     {
         public List<Room> ToList()
         {
-            var response = HttpGet<AllRoomsResponse>("api/specie/getAll", new Dictionary<string, object>(), MediaType.Json);
+            var response = HttpGet<AllRoomsResponse>("api/room/getAll", new Dictionary<string, object>(), MediaType.Json);
             return response.Result;
         }
 
@@ -22,14 +22,14 @@ namespace Safari.UI.Process
         {
             var request = new AddRoomRequest();
             request.Room = room;
-            var response = HttpPost<AddRoomRequest>("api/specie/add", request, MediaType.Json);
+            var response = HttpPost<AddRoomRequest>("api/room/add", request, MediaType.Json);
         }
 
         public Room Find(int id)
         {
             Dictionary<string, object> dir = new Dictionary<string, object>();
             dir.Add("Id", id);
-            var response = HttpGet<GetRoomResponse>("api/specie/getById", dir, MediaType.Json);
+            var response = HttpGet<GetRoomResponse>("api/room/getById", dir, MediaType.Json);
             return response.Result;
         }
 
@@ -37,14 +37,14 @@ namespace Safari.UI.Process
         {
             var request = new UpdateRoomRequest();
             request.Room = room;
-            var response = HttpPost<UpdateRoomRequest>("api/specie/update", request, MediaType.Json);
+            var response = HttpPost<UpdateRoomRequest>("api/room/update", request, MediaType.Json);
         }
 
         public void Delete(int id)
         {
-            var request = new DeleteSpecieRequest();
+            var request = new DeleteRoomRequest();
             request.Id = id;
-            var response = HttpPost<DeleteSpecieRequest>("api/specie/delete", request, MediaType.Json);
+            var response = HttpPost<DeleteRoomRequest>("api/room/delete", request, MediaType.Json);
         }
     }
 }
