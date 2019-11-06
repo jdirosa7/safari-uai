@@ -33,6 +33,6 @@ namespace Safari.UI.Web.Models
             return new ApplicationDbContext();
         }
 
-        
+        public System.Data.Entity.DbSet<Safari.Entities.ServiceType> ServiceTypes { get; set; }
     }
 }

@@ -71,6 +71,7 @@
     <Compile Include="ProcessComponent.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoomProcess.cs" />
+    <Compile Include="ServiceTypeProcess.cs" />
     <Compile Include="SpecieProcess.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -13,30 +13,36 @@ namespace Safari.Business
         public ServiceType Add(ServiceType serviceType)
         {
             ServiceType result = default(ServiceType);
-            var serviceTypeDAC = new ServiceTypeDAC();
+            var dac = new ServiceTypeDAC();
 
-            result = serviceTypeDAC.Create(serviceType);
+            result = dac.Create(serviceType);
             return result;
         }
 
         public void Update(ServiceType serviceType)
         {
-            var serviceTypeDAC = new ServiceTypeDAC();
-            serviceTypeDAC.Update(serviceType);
+            var dac = new ServiceTypeDAC();
+            dac.Update(serviceType);
+        }
+
+        public ServiceType Find(int id)
+        {
+            var dac = new ServiceTypeDAC();
+            return dac.ReadBy(id);
         }
 
         public void Delete(int id)
         {
-            var serviceTypeDAC = new ServiceTypeDAC();
-            serviceTypeDAC.Delete(id);
+            var dac = new ServiceTypeDAC();
+            dac.Delete(id);
         }
 
         public List<ServiceType> List()
         {
             List<ServiceType> result = default(List<ServiceType>);
 
-            var serviceTypeDAC = new ServiceTypeDAC();
-            result = serviceTypeDAC.Read();
+            var dac = new ServiceTypeDAC();
+            result = dac.Read();
             return result;
         }
     }

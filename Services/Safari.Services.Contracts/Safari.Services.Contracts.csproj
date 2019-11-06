@@ -73,6 +73,11 @@
     <Compile Include="Request\Room\DeleteRoomRequest.cs" />
     <Compile Include="Request\Room\GetRoomRequest.cs" />
     <Compile Include="Request\Room\UpdateRoomRequest.cs" />
+    <Compile Include="Request\ServiceType\AddServiceTypeRequest.cs" />
+    <Compile Include="Request\ServiceType\AllServiceTypeRequest.cs" />
+    <Compile Include="Request\ServiceType\DeleteServiceTypeRequest.cs" />
+    <Compile Include="Request\ServiceType\GetServiceTypeRequest.cs" />
+    <Compile Include="Request\ServiceType\UpdateServiceTypeRequest.cs" />
     <Compile Include="Request\Specie\AddSpecieRequest.cs" />
     <Compile Include="Request\Specie\AllSpecieRequest.cs" />
     <Compile Include="Request\Specie\DeleteSpecieRequest.cs" />
@@ -103,6 +108,11 @@
     <Compile Include="Response\Room\DeleteRoomResponse.cs" />
     <Compile Include="Response\Room\GetRoomResponse.cs" />
     <Compile Include="Response\Room\UpdateRoomResponse.cs" />
+    <Compile Include="Response\ServiceType\AddServiceTypeResponse.cs" />
+    <Compile Include="Response\ServiceType\AllServiceTypeResponse.cs" />
+    <Compile Include="Response\ServiceType\DeleteServiceTypeResponse.cs" />
+    <Compile Include="Response\ServiceType\GetServiceTypeResponse.cs" />
+    <Compile Include="Response\ServiceType\UpdateServiceTypeResponse.cs" />
     <Compile Include="Response\Specie\AddSpecieResponse.cs" />
     <Compile Include="Response\Specie\AllSpeciesResponse.cs" />
     <Compile Include="Response\Specie\DeleteSpecieResponse.cs" />

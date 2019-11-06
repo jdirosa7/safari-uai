@@ -10,6 +10,13 @@ namespace Safari.Entities
 {
     public class Room : IEntity
     {
+        public enum RoomTypes
+        {
+            Recuperación = 1,
+            Quirófano = 2,
+            Vacunatorio = 3
+        }
+
         public int Id { get; set; }
 
         [DisplayName("Nombre")]

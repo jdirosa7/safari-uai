@@ -1,4 +1,5 @@
-﻿using Safari.Entities;
+﻿using Safari.Business;
+using Safari.Entities;
 using Safari.Services;
 using Safari.Services.Contracts;
 using Safari.UI.Process;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static Safari.Entities.Room;
 
 namespace Safari.UI.Web.Controllers
 {
@@ -15,6 +17,7 @@ namespace Safari.UI.Web.Controllers
         //IRoom db = new RoomService();
 
         RoomProcess roomProcess = new RoomProcess();
+        RoomComponent db = new RoomComponent();
 
         // GET: Room
         [Route("consultorios", Name = "RoomControllerRouteIndex")]
@@ -23,6 +26,57 @@ namespace Safari.UI.Web.Controllers
             //var rooms = db.ToList();
             var rooms = roomProcess.ToList();
             return View(rooms);
+        }
+
+        public ActionResult Index2()
+        {
+            ViewBag.RoomTypes = new SelectList(Enum.GetValues(typeof(Room.RoomTypes)), RoomTypes.Recuperación);
+            return View();
+        }
+
+        public ActionResult GetData()
+        {
+            List<Room> data = db.List();
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetDataById(int id)
+        {
+            var room = db.Find(id);
+            return Json(room, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult PostData(Room room)
+        {
+            if (ModelState.IsValid)
+            {
+                Room dataRoom = new Room();
+                dataRoom.Name = room.Name;
+                dataRoom.RoomType = room.RoomType;
+
+                if(room.Id > 0)
+                {
+                    dataRoom.Id = room.Id;
+                    db.Update(dataRoom);                    
+                }
+                else
+                    db.Add(dataRoom);
+
+                return Json("success", JsonRequestBehavior.AllowGet);
+            }
+
+            return Json("error", JsonRequestBehavior.DenyGet);
+        }
+
+        public JsonResult DeleteData(int? id)
+        {
+            if(id > 0)
+            {
+                db.Delete(id.Value);
+                return Json("success", JsonRequestBehavior.AllowGet);
+            }
+
+            return Json("error", JsonRequestBehavior.DenyGet);
         }
 
         // GET: Room/Details/5

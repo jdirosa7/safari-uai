@@ -1,0 +1,294 @@
+﻿@model Safari.Entities.Room
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="add alert alert-success alert-dismissible collapse" role="alert">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Consultorio guardado exitosamente</strong>
+</div>
+
+<div class="delete alert alert-success alert-dismissible collapse" role="alert">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Consultorio eliminado exitosamente</strong>
+</div>
+
+<div class="error alert alert-danger alert-dismissible collapse">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    Ha ocurrido un <strong>error!</strong> Por favor, contacte al administrador.
+</div>
+
+<h2>Consultorios</h2>
+
+
+<div class="container">
+
+    <button type="button" class="btn btn-success" style="margin-bottom:10px" onclick="addRoom()"><span class="glyphicon glyphicon-plus" style="margin-right:5px"></span>Agregar</button>
+    <button type="button" class="btn btn-warning hidden" style="margin-bottom:10px" onclick="editRoom()"><span class="glyphicon glyphicon-pencil" style="margin-right:5px"></span>Editar</button>
+    <button type="button" class="btn btn-info hidden" style="margin-bottom:10px" onclick="deleteRoom()"><span class="glyphicon glyphicon-remove" style="margin-right:5px"></span>Eliminar</button>
+
+    <table id="tableRooms" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+            <tr>
+                <th></th>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Tipo de Consultorio</th>
+            </tr>
+        </thead>
+
+    </table>
+
+    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/sl-1.3.1/datatables.min.css" />
+
+
+    @section Scripts{
+
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+        <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                var table = $('#tableRooms').DataTable({
+
+                    "ajax": {
+                        "type": "GET",
+                        "url": "@Url.Action("GetData", "Room")",
+                        "datatype": "JSON"
+                    },
+
+                    "columns": [
+                        {},
+                        { "data": "Id" },
+                        { "data": "Name" },
+                        { "data": "RoomType" }
+                    ],
+
+                    columnDefs: [{
+                        orderable: false,
+                        className: 'select-checkbox',
+                        targets: 0,
+                        defaultContent: ""
+
+                    }],
+                    select: {
+                        style: 'single',
+                        selector: 'td:first-child'
+                    },
+
+                    "language": {
+
+                        "lengthMenu": "Visualizando _MENU_ registros por página",
+                        "zeroRecords": "No se encontraron registros",
+                        "info": "Mostrando _PAGE_ de _PAGES_",
+                        "infoEmpty": "No se encontraron registros"
+                    }
+
+                });
+
+                table.on('select', function (e, dt, type, indexes) {
+                    //var rowData = table.rows(indexes).data().toArray();
+                    $('.btn-info').removeClass('hidden');
+                    $('.btn-warning').removeClass('hidden');
+                }).on('deselect', function (e, dt, type, indexes) {
+                    $('.btn-info').addClass('hidden');
+                    $('.btn-warning').addClass('hidden');
+                });
+            });
+
+        </script>
+
+        <script>
+
+            function addRoom() {
+
+                $(".crudType")[0].innerText = "Nuevo consultorio";
+                $('#myModal').modal("show");
+                $("#btnSaveRoom").show();
+                $("#btnUpdRoom").hide();
+                return false;
+            }
+
+            function editRoom() {
+                var table = $('#tableRooms').DataTable();
+                var data = table.rows({ selected: true }).data().toArray();
+                var id = data[0].Id;
+
+                $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("GetDataById","Room")/" + id,
+                    dataType: "JSON",
+                    success: function (res) {
+                        $("#idRoom").val(res.Id);
+                        $("#Name").val(res.Name);
+                        $("#RoomType").val(res.RoomType);
+
+                        $("#myModal").modal("show");
+                        $("#btnSaveRoom").hide();
+                        $("#btnUpdRoom").show();
+                        $(".crudType")[0].innerText = "Actualizar consultorio";
+                    },
+                    error: function (msg) {
+                        $('.error').show();
+                    }
+                });
+
+                
+            }
+
+            function deleteRoom() {
+                $('#modalDelete').modal("show");
+                return false;
+            }
+
+            function btnDeleteRoom() {
+                var table = $('#tableRooms').DataTable();
+                var data = table.rows({ selected: true }).data().toArray();
+                var id = data[0].Id;
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("DeleteData", "Room")",
+                    data: { "id": id },
+                    success: function (response) {
+                        if (response == "success") {
+                            $("#modalDelete").modal("hide");
+                            $('.delete').show();
+                            setTimeout(function () { window.location.reload() }, 1500);
+                        }
+                    },
+                    error: function (msg) {
+                        $('.error').show();
+                    }
+                });
+            }
+
+            function btnSubmit() {
+
+                var data = $("#formsubmit").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("PostData", "Room")",
+                    data: data,
+                    success: function (response) {
+                        if (response == "success") {
+                            $("#myModal").modal("hide");
+                            $('.add').show();
+                            setTimeout(function () { window.location.reload() }, 1500);
+                        }
+                    },
+                    error: function (msg) {
+                        $('.error').show();
+                    }
+                });
+            }
+
+
+            function btnUpdateRoom() {
+
+                var data = $("#formsubmit").serialize();
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("PostData", "Room")",
+                    data: data,
+                    success: function (response) {
+                        if (response == "success") {
+                            $("#myModal").modal("hide");
+                            $('.add').show();
+                            setTimeout(function () { window.location.reload() }, 1500);
+                        }
+                    },
+                    error: function (msg) {
+                        $('.error').show();
+                    }
+                });
+            }
+
+        </script>
+
+        <div class="modal" id="modalDelete" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Eliminar consultorio</h5>
+                        <button type="button" style="margin-top:-20px" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Está seguro que desea eliminar el consultorio?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-info" onclick="btnDeleteRoom()">Eliminar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog">
+
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="abmRoom modal-title"><span class="glyphicon glyphicon-list-alt" style="margin-right:5px"></span>Consultorio</h4>
+                    </div>
+                    <div class="modal-body">
+                        @using (Html.BeginForm("PostData", "Index", FormMethod.Post, new { @id = "formsubmit" }))
+                        {
+                            <div class="form-horizontal">
+                                <h4 class="crudType"></h4>
+                                <hr />
+                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                                @Html.HiddenFor(m => m.Id, new { @id = "idRoom" })
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", @id = "Name", @name = "Name", @placeholder = "Nombre" } })
+                                        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.RoomType, htmlAttributes: new { @class = "control-label col-md-4" })
+                                    <div class="col-md-8">
+                                        @*@Html.EditorFor(model => model.RoomType, new { htmlAttributes = new { @class = "form-control", @name = "Name", @placeholder = "Tipo de consultorio" } })*@
+                                        @Html.DropDownListFor(model => model.RoomType, (ViewBag.RoomTypes as SelectList), new { @class = "form-control", @id = "RoomType", })
+                                        @Html.ValidationMessageFor(model => model.RoomType, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-offset-4 col-md-2">
+                                        @*<input type="submit" value="Create" class="btn btn-default" />*@
+                                        <button id="btnSaveRoom" type="button" class="btn btn-success" onclick="btnSubmit()">Guardar</button>
+                                        <button id="btnUpdRoom" type="button" class="btn btn-success" onclick="btnUpdateRoom()">Guardar</button>
+                                    </div>
+                                    <div class="col-md-2">
+                                        @*<input type="submit" value="Create" class="btn btn-default" />*@
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    @*<div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>*@
+                </div>
+
+            </div>
+        </div>
+    }
+</div>
+
+<style>
+    .hidden{
+        display:none;
+    }
+</style>

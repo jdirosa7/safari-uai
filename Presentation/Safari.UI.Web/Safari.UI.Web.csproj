@@ -331,12 +331,14 @@
     <Content Include="Views\MiEspecie\Details.cshtml" />
     <Content Include="Views\MiEspecie\Edit.cshtml" />
     <Content Include="Views\MiEspecie\Index.cshtml" />
+    <Content Include="Views\Room\AddItem.cshtml" />
+    <Content Include="Views\Room\Index2.cshtml" />
+    <Content Include="Views\ServiceType\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Views\MovementType\" />
-    <Folder Include="Views\ServiceType\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

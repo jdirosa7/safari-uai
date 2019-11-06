@@ -42,6 +42,7 @@
     <Compile Include="Appointment.cs" />
     <Compile Include="Client.cs" />
     <Compile Include="Doctor.cs" />
+    <Compile Include="IAudit.cs" />
     <Compile Include="Movement.cs" />
     <Compile Include="MovementType.cs" />
     <Compile Include="Price.cs" />
