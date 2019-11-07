@@ -31,7 +31,21 @@ namespace Safari.IoC.DependencyResolution {
                     scan.WithDefaultConventions();
 					scan.With(new ControllerConvention());
                 });
-            For<INotificationAction>().Use<EventLogWriter>();
+            //For<INotificationAction>().Use<EventLogWriter>();
+
+            string logType = "EventLogWriter";
+            switch (logType)
+            {
+                case "EmailSender":
+                    For<INotificationAction>().Use<EmailSender>();
+                    break;
+                case "SMSSender":
+                    For<INotificationAction>().Use<SMSSender>();
+                    break;
+                default:
+                    For<INotificationAction>().Use<EventLogWriter>();
+                    break;
+            }
         }
 
         #endregion

@@ -58,6 +58,7 @@
     <Compile Include="PacienteService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RoomService.cs" />
+    <Compile Include="SMSSender.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Business\Safari.Business\Safari.Business.csproj">
