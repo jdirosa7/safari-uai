@@ -97,5 +97,10 @@ namespace Safari.Data
                 db.ExecuteNonQuery(cmd);
             }
         }
+
+        public List<ServiceType> ReadyByFilters(Dictionary<string, string> filters)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

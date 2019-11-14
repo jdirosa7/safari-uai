@@ -192,5 +192,48 @@ namespace Safari.Data
                 db.ExecuteNonQuery(cmd);
             }
         }
+
+        public List<Appointment> ReadyByFilters(Dictionary<string, string> filters)
+        {
+            string SQL_STATEMENT = "SELECT Cita.Id as CitaId, [Fecha], [MedicoId], [PacienteId], " +
+                "[SalaId], [TipoServicioId],[Estado], [CreatedBy], [CreatedDate], [ChangedBy], [ChangedDate]," +
+                " [DeletedBy], [DeletedDate],[Deleted], M.Nombre as MedicoNombre, M.Apellido as MedicoApellido," +
+                " M.FechaNacimiento as MedicoFechaNacimiento,M.Telefono as MedicoTelefono, M.Email as MedicoEmail," +
+                " M.Especialidad, M.TipoMatricula, M.NumeroMatricula,P.Nombre as PacienteNombre, P.FechaNacimiento " +
+                "as PacienteFechaNacimiento, P.Observacion,C.Nombre as ClienteNombre, C.Apellido as ClienteApellido," +
+                " C.FechaNacimiento as ClienteFechaNacimiento,C.Domicilio, C.Telefono as ClienteTelefono, C.Email " +
+                "as ClienteEmail, C.Url,E.Nombre as EspecieNombre,S.Nombre as SalaNombre, S.TipoSala,TS.Nombre " +
+                "as TipoServicioNombre FROM Cita inner join Medico M on MedicoId = M.Id inner join Paciente P " +
+                "on PacienteId = P.Id inner join Cliente C on C.Id = P.ClienteId inner join Especie E on E.Id" +
+                " = P.EspecieId inner join Sala S on S.Id = Cita.SalaId inner join TipoServicio TS on TS.Id" +
+                " = Cita.TipoServicioId WHERE ";
+
+            List<Appointment> appointments = null;
+
+            var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
+            using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
+            {
+                List<KeyValuePair<string, string>> values = filters.ToList();
+                for (int i = 0; i < filters.Count; i++)
+                {
+                    SQL_STATEMENT += values[i].Key + " = @" + values[i].Value;
+
+                    db.AddInParameter(cmd, "@" + values[i].Key, values[i].Value.GetType().Equals(typeof(int)) ? DbType.Int32 : DbType.String, values[i].Value);
+
+                    if (i != filters.Count)
+                        SQL_STATEMENT += " AND ";
+
+                }
+
+                using (IDataReader dr = db.ExecuteReader(cmd))
+                {
+                    if (dr.Read())
+                    {
+                        appointments.Add(LoadAppointment(dr));
+                    }
+                }
+            }
+            return appointments;
+        }
     }
 }

@@ -29,6 +29,11 @@ namespace Safari.Data
             throw new NotImplementedException();
         }
 
+        public List<MovementType> ReadyByFilters(Dictionary<string, string> filters)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(MovementType entity)
         {
             throw new NotImplementedException();

@@ -16,7 +16,7 @@ namespace Safari.UI.Web.Controllers
     {
         //IRoom db = new RoomService();
 
-        RoomProcess roomProcess = new RoomProcess();
+        //RoomProcess db = new RoomProcess();
         RoomComponent db = new RoomComponent();
 
         // GET: Room
@@ -24,13 +24,19 @@ namespace Safari.UI.Web.Controllers
         public ActionResult Index()
         {
             //var rooms = db.ToList();
-            var rooms = roomProcess.ToList();
+            var rooms = db.List();
             return View(rooms);
+        }
+
+        public ActionResult CreatePartialView()
+        {
+            ViewBag.RoomTypes = new SelectList(Enum.GetValues(typeof(Room.RoomTypes)), RoomTypes.Recuperación);
+            return PartialView("CreatePartialView");
         }
 
         public ActionResult Index2()
         {
-            ViewBag.RoomTypes = new SelectList(Enum.GetValues(typeof(Room.RoomTypes)), RoomTypes.Recuperación);
+            //ViewBag.RoomTypes = new SelectList(Enum.GetValues(typeof(Room.RoomTypes)), RoomTypes.Recuperación);
             return View();
         }
 
@@ -84,7 +90,7 @@ namespace Safari.UI.Web.Controllers
         {
             try
             {
-                Room room = roomProcess.Find(id);
+                Room room = db.Find(id);
                 if (room == null)
                 {
                     return HttpNotFound();
@@ -110,7 +116,7 @@ namespace Safari.UI.Web.Controllers
         {
             try
             {
-                roomProcess.Add(room);
+                db.Add(room);
                 return RedirectToAction("Index");
             }
             catch(Exception ex)
@@ -122,7 +128,7 @@ namespace Safari.UI.Web.Controllers
         // GET: Room/Edit/5
         public ActionResult Edit(int id)
         {
-            Room room = roomProcess.Find(id);
+            Room room = db.Find(id);
             if (room == null)
             {
                 return HttpNotFound();
@@ -138,7 +144,7 @@ namespace Safari.UI.Web.Controllers
             try
             {
                 // TODO: Add update logic here
-                roomProcess.Update(room);
+                db.Update(room);
                 return RedirectToAction("Index");
             }
             catch
@@ -150,7 +156,7 @@ namespace Safari.UI.Web.Controllers
         // GET: Room/Delete/5
         public ActionResult Delete(int id)
         {
-            Room room = roomProcess.Find(id);
+            Room room = db.Find(id);
             if (room == null)
             {
                 return HttpNotFound();
@@ -166,7 +172,7 @@ namespace Safari.UI.Web.Controllers
             try
             {
                 // TODO: Add delete logic here
-                roomProcess.Delete(id);
+                db.Delete(id);
                 return RedirectToAction("Index");
             }
             catch

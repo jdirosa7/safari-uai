@@ -34,5 +34,7 @@ namespace Safari.UI.Web.Models
         }
 
         public System.Data.Entity.DbSet<Safari.Entities.ServiceType> ServiceTypes { get; set; }
+
+        public System.Data.Entity.DbSet<Safari.Entities.Room> Rooms { get; set; }
     }
 }

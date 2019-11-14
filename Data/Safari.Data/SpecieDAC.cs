@@ -96,6 +96,37 @@ namespace Safari.Data
             especie.Nombre = GetDataValue<string>(dr, "Nombre");
             return especie;
         }
+
+        public List<Species> ReadyByFilters(Dictionary<string, string> filters)
+        {
+            string SQL_STATEMENT = "SELECT [Id], [Nombre] FROM Especie WHERE ";
+            List<Species> species = null;
+
+            var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
+            using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
+            {
+                List<KeyValuePair<string, string>> values = filters.ToList();
+                for (int i = 0; i < filters.Count; i++)
+                {
+                    SQL_STATEMENT += values[i].Key + " = @" + values[i].Value;
+
+                    db.AddInParameter(cmd, "@" + values[i].Key, values[i].Value.GetType().Equals(typeof(int)) ? DbType.Int32 : DbType.String, values[i].Value);
+                    
+                    if (i != filters.Count)
+                        SQL_STATEMENT += " AND ";
+
+                }
+
+                using (IDataReader dr = db.ExecuteReader(cmd))
+                {
+                    if (dr.Read())
+                    {
+                        species.Add(LoadEspecie(dr));
+                    }
+                }
+            }
+            return species;
+        }
     }
 }
 

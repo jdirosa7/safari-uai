@@ -13,6 +13,7 @@ namespace Safari.Data
         TEntity Create(TEntity entity);
         List<TEntity> Read();
         TEntity ReadBy(int id);
+        List<TEntity> ReadyByFilters(Dictionary<string, string> filters);
         void Update(TEntity entity);
         void Delete(int id);
 

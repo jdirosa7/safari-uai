@@ -15,6 +15,18 @@ namespace Safari.Business
 
         public Client Add(Client client)
         {
+            Dictionary<string, string> filters = new Dictionary<string, string>();
+            filters.Add("NumeroMatricula", client.Email);
+
+            List<Client> clients = dac.ReadyByFilters(filters);
+
+            if (clients.Count > 0)
+            {
+                //Existe un doctor ya con esos datos 
+                return client;
+            }
+
+
             Client result = default(Client);
 
             result = dac.Create(client);

@@ -12,8 +12,28 @@ namespace Safari.Business
     {
         public Appointment Add(Appointment appointment)
         {
-            Appointment result = default(Appointment);
             var dac = new AppointmentDAC();
+
+            Dictionary<string, string> filters = new Dictionary<string, string>();
+            filters.Add("DoctorId", appointment.DoctorId.ToString());
+            filters.Add("Fecha", appointment.Date.ToString());
+
+            List<Appointment> appointments = dac.ReadyByFilters(filters);
+
+            filters.Clear();
+            filters.Add("PacienteId", appointment.PatientId.ToString());
+            filters.Add("Fecha", appointment.Date.ToString());
+
+            appointments.AddRange(dac.ReadyByFilters(filters));
+
+            if(appointments.Count > 0)
+            {
+                //Puede pasar una de dos, o que el doctor asignado tenga un turno para esa fecha y hora
+                //O que lo tenga el paciente
+                return appointment;
+            }
+
+            Appointment result = default(Appointment);            
 
             result = dac.Create(appointment);
             return result;

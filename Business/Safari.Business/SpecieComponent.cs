@@ -15,6 +15,17 @@ namespace Safari.Business
 
         public Species Add(Species especie)
         {
+            Dictionary<string, string> filters = new Dictionary<string, string>();
+            filters.Add("Nombre", especie.Nombre);
+
+            List<Species> species = dac.ReadyByFilters(filters);
+
+            if(species.Count > 0)
+            {
+                return especie;
+            }
+
+
             Species result = default(Species);
 
             result = dac.Create(especie);

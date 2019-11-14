@@ -29,6 +29,11 @@ namespace Safari.Data
             throw new NotImplementedException();
         }
 
+        public List<Price> ReadyByFilters(Dictionary<string, string> filters)
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(Price entity)
         {
             throw new NotImplementedException();

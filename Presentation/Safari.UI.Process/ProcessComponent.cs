@@ -4,9 +4,6 @@ using System.Configuration;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
-using System.Net.Http.Formatting;
-using System.Text;
-using System.Threading.Tasks;
 using System.Web;
 
 namespace Safari.UI.Process
@@ -70,10 +67,11 @@ namespace Safari.UI.Process
 
             using (HttpClient client = new HttpClient())
             {
+                var host = ConfigurationManager.AppSettings["serviceUrl"];
                 client.BaseAddress = new Uri(ConfigurationManager.AppSettings["serviceUrl"]);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType));
 
-                var response = client.GetAsync(pathAndQuery).Result;
+                var response = client.GetAsync(host + pathAndQuery).Result;
                 response.EnsureSuccessStatusCode();
 
                 result = response.Content.ReadAsAsync<T>().Result;
@@ -90,13 +88,15 @@ namespace Safari.UI.Process
             using (var client = new HttpClient())
             {
                 Type typeOft = typeof(T);
+                var host = ConfigurationManager.AppSettings["serviceUrl"];
                 client.BaseAddress = new Uri(ConfigurationManager.AppSettings["serviceUrl"]);
                 client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue(mediaType));
 
-                var response = client.PostAsJsonAsync(pathAndQuery, value).Result;
+                var response = client.PostAsJsonAsync(host + "/" + pathAndQuery, value).Result;
                 response.EnsureSuccessStatusCode();
                 result = response.Content.ReadAsAsync<T>().Result;
             }
+
             return result;
         }
     }

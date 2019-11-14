@@ -100,5 +100,10 @@ namespace Safari.Data
             room.RoomType = GetDataValue<string>(dr, "TipoSala");
             return room;
         }
+
+        public List<Room> ReadyByFilters(Dictionary<string, string> filters)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

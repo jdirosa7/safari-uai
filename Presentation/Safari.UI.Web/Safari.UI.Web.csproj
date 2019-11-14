@@ -334,6 +334,7 @@
     <Content Include="Views\Room\AddItem.cshtml" />
     <Content Include="Views\Room\Index2.cshtml" />
     <Content Include="Views\ServiceType\Index.cshtml" />
+    <Content Include="Views\Room\CreatePartialView.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

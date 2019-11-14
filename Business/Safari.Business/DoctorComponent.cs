@@ -14,6 +14,17 @@ namespace Safari.Business
 
         public Doctor Add(Doctor doctor)
         {
+            Dictionary<string, string> filters = new Dictionary<string, string>();
+            filters.Add("NumeroMatricula", doctor.EnrollmentNumber);
+
+            List<Doctor> doctors = dac.ReadyByFilters(filters);
+
+            if(doctors.Count > 0)
+            {
+                //Existe un doctor ya con esos datos 
+                return doctor;
+            }
+
             Doctor result = default(Doctor);
 
             result = dac.Create(doctor);
