@@ -37,7 +37,7 @@ namespace Safari.Business
             dac.Delete(id);
         }
 
-        public List<ServiceType> List()
+        public List<ServiceType> ToList()
         {
             List<ServiceType> result = default(List<ServiceType>);
 

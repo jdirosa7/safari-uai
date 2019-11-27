@@ -31,7 +31,7 @@ namespace Safari.Business
             priceDAC.Delete(id);
         }
 
-        public List<Price> List()
+        public List<Price> ToList()
         {
             List<Price> result = default(List<Price>);
 

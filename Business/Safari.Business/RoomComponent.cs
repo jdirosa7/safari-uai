@@ -35,7 +35,7 @@ namespace Safari.Business
             return dac.ReadBy(id);
         }
 
-        public List<Room> List()
+        public List<Room> ToList()
         {
             List<Room> result = default(List<Room>);
 

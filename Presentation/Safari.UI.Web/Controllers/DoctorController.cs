@@ -1,4 +1,5 @@
-﻿using Safari.Entities;
+﻿using Safari.Business;
+using Safari.Entities;
 using Safari.UI.Process;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,9 @@ namespace Safari.UI.Web.Controllers
 {
     public class DoctorController : Controller
     {
-        DoctorProcess db = new DoctorProcess();
+        //DoctorProcess db = new DoctorProcess();
+
+        DoctorComponent db = new DoctorComponent();
 
         // GET: Doctor
         [Route("doctores", Name = "DoctorControllerRouteIndex")]

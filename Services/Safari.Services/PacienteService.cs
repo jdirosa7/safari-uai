@@ -35,7 +35,7 @@ namespace Safari.Services
 
         public List<Patient> ToList()
         {
-            var pacientes = bs.List();
+            var pacientes = bs.ToList();
             return pacientes;
         }
 

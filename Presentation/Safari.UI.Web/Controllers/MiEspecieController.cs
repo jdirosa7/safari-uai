@@ -10,18 +10,21 @@ using Safari.Entities;
 using Safari.UI.Web.Models;
 using Safari.Services.Contracts;
 using Safari.Services;
+using Safari.Business;
 
 namespace Safari.UI.Web.Controllers
 {
     public class MiEspecieController : Controller
     {
-        private IEspecie db;
+        //private IEspecie db;
 
-        //private IEspecie db = new EspecieService();
-        public MiEspecieController(IEspecie iespecie)
-        {
-            db = iespecie;
-        }
+        ////private IEspecie db = new EspecieService();
+        //public MiEspecieController(IEspecie iespecie)
+        //{
+        //    db = iespecie;
+        //}
+
+        SpecieComponent db = new SpecieComponent();
 
         // GET: MiEspecie
         public ActionResult Index()
@@ -91,7 +94,7 @@ namespace Safari.UI.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Update(species.Id, species);
+                db.Update(species);
                 return RedirectToAction("Index");
             }
             return View(species);

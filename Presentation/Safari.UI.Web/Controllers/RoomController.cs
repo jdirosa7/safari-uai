@@ -22,9 +22,8 @@ namespace Safari.UI.Web.Controllers
         // GET: Room
         [Route("consultorios", Name = "RoomControllerRouteIndex")]
         public ActionResult Index()
-        {
-            //var rooms = db.ToList();
-            var rooms = db.List();
+        {            
+            var rooms = db.ToList();
             return View(rooms);
         }
 
@@ -42,7 +41,7 @@ namespace Safari.UI.Web.Controllers
 
         public ActionResult GetData()
         {
-            List<Room> data = db.List();
+            List<Room> data = db.ToList();
             return Json(new { data = data }, JsonRequestBehavior.AllowGet);
         }
 

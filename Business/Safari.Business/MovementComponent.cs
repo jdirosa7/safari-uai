@@ -31,7 +31,7 @@ namespace Safari.Business
             dac.Delete(id);
         }
 
-        public List<Movement> List()
+        public List<Movement> ToList()
         {
             List<Movement> result = default(List<Movement>);
 

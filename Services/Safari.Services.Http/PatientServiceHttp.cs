@@ -45,7 +45,7 @@ namespace Safari.Services.Http
             {
                 var response = new AllPatientsResponse();
                 var bc = new PatientComponent();
-                response.Result = bc.List();
+                response.Result = bc.ToList();
 
                 return response;
 

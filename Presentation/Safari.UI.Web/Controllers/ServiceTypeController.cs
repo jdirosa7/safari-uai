@@ -23,7 +23,7 @@ namespace Safari.UI.Web.Controllers
 
         public ActionResult GetData()
         {
-            List<ServiceType> data = db.List();
+            List<ServiceType> data = db.ToList();
             return Json(new { data = data }, JsonRequestBehavior.AllowGet);
         }
 

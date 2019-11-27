@@ -49,7 +49,7 @@ namespace Safari.Business
             return result;
         }
 
-        public List<Doctor> List()
+        public List<Doctor> ToList()
         {
             List<Doctor> result = default(List<Doctor>);
 

@@ -37,7 +37,7 @@ namespace Safari.Services
 
         public List<Species> ToList()
         {      
-            var especies = bs.List();
+            var especies = bs.ToList();
             return especies;
         }
 

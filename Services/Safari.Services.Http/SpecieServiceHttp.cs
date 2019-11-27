@@ -45,7 +45,7 @@ namespace Safari.Services.Http
             {
                 var response = new AllSpeciesResponse();
                 var bc = new SpecieComponent();
-                response.Result = bc.List();
+                response.Result = bc.ToList();
 
                 return response;
                 

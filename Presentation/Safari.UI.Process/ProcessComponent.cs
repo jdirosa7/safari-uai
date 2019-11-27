@@ -80,6 +80,14 @@ namespace Safari.UI.Process
             return result;
         }
 
+        /// <summary>
+        /// Sends a post to the path selected
+        /// </summary>
+        /// <typeparam name="T">The returned type from the call.</typeparam>
+        /// <param name="path">Path to call</param>
+        /// <param name="value">Values to post</param>
+        /// <param name="mediaType">Tipe of media (could be, json or xml)</param>
+        /// <returns></returns>
         public static T HttpPost<T>(string path, T value, string mediaType)
         {
 

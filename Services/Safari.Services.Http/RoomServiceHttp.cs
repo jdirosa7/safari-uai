@@ -45,7 +45,7 @@ namespace Safari.Services.Http
             {
                 var response = new AllRoomsResponse();
                 var bc = new RoomComponent();
-                response.Result = bc.List();
+                response.Result = bc.ToList();
 
                 return response;
 

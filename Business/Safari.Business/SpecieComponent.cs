@@ -20,7 +20,7 @@ namespace Safari.Business
 
             List<Species> species = dac.ReadyByFilters(filters);
 
-            if(species.Count > 0)
+            if(species != null && species.Count > 0)
             {
                 return especie;
             }
@@ -50,7 +50,7 @@ namespace Safari.Business
             return result;
         }
 
-        public List<Species> List()
+        public List<Species> ToList()
         {
             List<Species> result = default(List<Species>);
 

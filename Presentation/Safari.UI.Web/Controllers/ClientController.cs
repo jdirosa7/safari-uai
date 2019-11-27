@@ -1,4 +1,5 @@
-﻿using Safari.Entities;
+﻿using Safari.Business;
+using Safari.Entities;
 using Safari.Services;
 using Safari.Services.Contracts;
 using Safari.UI.Process;
@@ -12,7 +13,8 @@ namespace Safari.UI.Web.Controllers
 {
     public class ClientController : Controller
     {
-        ClientProcess db = new ClientProcess();
+        //ClientProcess db = new ClientProcess();
+        ClientComponent db = new ClientComponent();
 
         //public ClientController(ICliente iCliente)
         //{

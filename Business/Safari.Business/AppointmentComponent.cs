@@ -60,7 +60,7 @@ namespace Safari.Business
             return result;
         }
 
-        public List<Appointment> List()
+        public List<Appointment> ToList()
         {
             List<Appointment> result = default(List<Appointment>);
 

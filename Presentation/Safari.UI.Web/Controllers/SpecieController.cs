@@ -14,7 +14,8 @@ namespace Safari.UI.Web.Controllers
     //[Authorize]//Securizo que no se pueda acceder a ninguna vista o controlador si no estoy autenticado
     public class SpecieController : Controller
     {
-        SpecieProcess db = new SpecieProcess();
+        //SpecieProcess db = new SpecieProcess();
+        SpecieComponent db = new SpecieComponent();
         
         // GET: Especie
         [Route("especies", Name = "SpecieControllerRouteIndex")]

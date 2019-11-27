@@ -1,4 +1,5 @@
-﻿using Safari.Entities;
+﻿using Safari.Business;
+using Safari.Entities;
 using Safari.Services;
 using Safari.Services.Contracts;
 using Safari.UI.Process;
@@ -12,9 +13,13 @@ namespace Safari.UI.Web.Controllers
 {
     public class PatientController : Controller
     {
-        PatientProcess db = new PatientProcess();
-        ClientProcess dbClient = new ClientProcess();
-        SpecieProcess dbSpecie = new SpecieProcess();
+        //PatientProcess db = new PatientProcess();
+        //ClientProcess dbClient = new ClientProcess();
+        //SpecieProcess dbSpecie = new SpecieProcess();
+
+        PatientComponent db = new PatientComponent();
+        ClientComponent dbClient = new ClientComponent();
+        SpecieComponent dbSpecie = new SpecieComponent();
 
         // GET: Patient
         [Route("pacientes", Name = "PatientControllerRouteIndex")]
@@ -46,12 +51,12 @@ namespace Safari.UI.Web.Controllers
         // GET: Patient/Create
         public ActionResult Create()
         {
-            List<Client> clientes = dbClient.ToList();
-            List<Species> especies = dbSpecie.ToList();
+            var clientes = dbClient.ToList();
+            var especies = dbSpecie.ToList();
 
-            ViewBag.Clientes = clientes;
-            ViewBag.Especies = especies;
-            return View(ViewBag);
+            ViewBag.ClientId = new SelectList(clientes, "Id", "Name");
+            ViewBag.SpecieId = new SelectList(especies, "Id", "Nombre");
+            return View();
         }
 
         // POST: Patient/Create
@@ -88,7 +93,7 @@ namespace Safari.UI.Web.Controllers
             try
             {
                 // TODO: Add update logic here
-                paciente = db.Update(paciente);
+                db.Update(paciente);
                 return RedirectToAction("Index");
             }
             catch

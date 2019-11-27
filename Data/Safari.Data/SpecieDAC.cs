@@ -102,18 +102,23 @@ namespace Safari.Data
             string SQL_STATEMENT = "SELECT [Id], [Nombre] FROM Especie WHERE ";
             List<Species> species = null;
 
+            List<KeyValuePair<string, string>> values = filters.ToList();
+            for (int i = 0; i < filters.Count; i++)
+            {
+                SQL_STATEMENT += values[i].Key + " = @" + values[i].Key;
+
+                if (i + 1 != filters.Count)
+                    SQL_STATEMENT += " AND ";
+
+            }
+
             var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
             using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
             {
-                List<KeyValuePair<string, string>> values = filters.ToList();
                 for (int i = 0; i < filters.Count; i++)
                 {
-                    SQL_STATEMENT += values[i].Key + " = @" + values[i].Value;
-
-                    db.AddInParameter(cmd, "@" + values[i].Key, values[i].Value.GetType().Equals(typeof(int)) ? DbType.Int32 : DbType.String, values[i].Value);
-                    
-                    if (i != filters.Count)
-                        SQL_STATEMENT += " AND ";
+                    var isTypeInt = values[i].Value.GetType().Equals(typeof(int));
+                    db.AddInParameter(cmd, "@" + values[i].Key, isTypeInt ? DbType.Int32 : DbType.AnsiString, values[i].Value);
 
                 }
 
