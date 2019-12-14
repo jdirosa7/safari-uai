@@ -15,11 +15,11 @@ namespace Safari.Business
         public Doctor Add(Doctor doctor)
         {
             Dictionary<string, string> filters = new Dictionary<string, string>();
-            filters.Add("NumeroMatricula", doctor.EnrollmentNumber);
+            filters.Add("NumeroMatricula", doctor.EnrollmentNumber.ToString());
 
             List<Doctor> doctors = dac.ReadyByFilters(filters);
 
-            if(doctors.Count > 0)
+            if(doctors != null && doctors.Count > 0)
             {
                 //Existe un doctor ya con esos datos 
                 return doctor;

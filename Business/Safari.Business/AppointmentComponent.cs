@@ -15,18 +15,30 @@ namespace Safari.Business
             var dac = new AppointmentDAC();
 
             Dictionary<string, string> filters = new Dictionary<string, string>();
-            filters.Add("DoctorId", appointment.DoctorId.ToString());
+            filters.Add("MedicoId", appointment.DoctorId.ToString());
             filters.Add("Fecha", appointment.Date.ToString());
 
-            List<Appointment> appointments = dac.ReadyByFilters(filters);
+            List<Appointment> appointments = null;
+
+            var data = dac.ReadyByFilters(filters);
+            if(data != null && data.Count > 0)
+            {
+                appointments = new List<Appointment>();
+                appointments.AddRange(data);
+            }
 
             filters.Clear();
             filters.Add("PacienteId", appointment.PatientId.ToString());
             filters.Add("Fecha", appointment.Date.ToString());
 
-            appointments.AddRange(dac.ReadyByFilters(filters));
-
-            if(appointments.Count > 0)
+            data = dac.ReadyByFilters(filters);
+            if (data != null && data.Count > 0)
+            {
+                appointments = new List<Appointment>();
+                appointments.AddRange(data);
+            }
+            
+            if(appointments != null && appointments.Count > 0)
             {
                 //Puede pasar una de dos, o que el doctor asignado tenga un turno para esa fecha y hora
                 //O que lo tenga el paciente
@@ -45,10 +57,10 @@ namespace Safari.Business
             dac.Update(appointment);
         }
 
-        public void Delete(int id)
+        public void Delete(Appointment app)
         {
             var dac = new AppointmentDAC();
-            dac.Delete(id);
+            dac.LogicDelete(app);
         }
 
         public Appointment Find(int id)

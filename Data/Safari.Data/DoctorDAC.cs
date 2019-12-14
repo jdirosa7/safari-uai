@@ -16,20 +16,20 @@ namespace Safari.Data
         {
             const string SQL_STATEMENT = "INSERT INTO Medico ([Apellido],[Nombre],[TipoMatricula],[NumeroMatricula]," +
                 "[Especialidad],[FechaNacimiento],[Email],[Telefono])" +
-                " VALUES(@Apellido,@Nombre,@TipoMatricula,@NumeroMatricula,@Especialidad,@Email,@Telefono," +
-                "@FechaNacimiento); SELECT SCOPE_IDENTITY();";
+                " VALUES(@Apellido,@Nombre,@TipoMatricula,@NumeroMatricula,@Especialidad,@FechaNacimiento,@Email," +
+                "@Telefono); SELECT SCOPE_IDENTITY();";
 
             var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
             using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
             {
-                db.AddInParameter(cmd, "@Apellido", DbType.AnsiString, doctor.Name);
-                db.AddInParameter(cmd, "@Nombre", DbType.AnsiString, doctor.BirthDate);
+                db.AddInParameter(cmd, "@Apellido", DbType.AnsiString, doctor.LastName);
+                db.AddInParameter(cmd, "@Nombre", DbType.AnsiString, doctor.Name);
                 db.AddInParameter(cmd, "@TipoMatricula", DbType.AnsiString, doctor.EnrollmentType);
-                db.AddInParameter(cmd, "@NumeroMatricula", DbType.AnsiString, doctor.EnrollmentNumber);
+                db.AddInParameter(cmd, "@NumeroMatricula", DbType.Int32, doctor.EnrollmentNumber);
                 db.AddInParameter(cmd, "@Especialidad", DbType.AnsiString, doctor.Specialty);
                 db.AddInParameter(cmd, "@Email", DbType.AnsiString, doctor.Email);
                 db.AddInParameter(cmd, "@Telefono", DbType.AnsiString, doctor.Phone);
-                db.AddInParameter(cmd, "@FechaNacimiento", DbType.AnsiString, doctor.BirthDate);
+                db.AddInParameter(cmd, "@FechaNacimiento", DbType.AnsiString, doctor.BirthDate.Date);
                 doctor.Id = Convert.ToInt32(db.ExecuteScalar(cmd));
             }
             return doctor;
@@ -81,13 +81,13 @@ namespace Safari.Data
         {
             const string SQL_STATEMENT = "UPDATE Medico SET [Apellido]=@Apellido,[Nombre]= @Nombre," +
                 "[TipoMatricula]=@TipoMatricula,[NumeroMatricula]=@NumeroMatricula,[Especialidad]=@Especialidad," +
-                "[FechaNacimiento]=@FechaNacimiento,[Email]= @Email,[Telefono]= @Telefono, WHERE [Id]= @Id ";
+                "[FechaNacimiento]=@FechaNacimiento,[Email]= @Email,[Telefono]= @Telefono WHERE [Id]= @Id ";
 
             var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
             using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
             {
-                db.AddInParameter(cmd, "@Apellido", DbType.AnsiString, doctor.Name);
-                db.AddInParameter(cmd, "@Nombre", DbType.AnsiString, doctor.BirthDate);
+                db.AddInParameter(cmd, "@Apellido", DbType.AnsiString, doctor.LastName);
+                db.AddInParameter(cmd, "@Nombre", DbType.AnsiString, doctor.Name);
                 db.AddInParameter(cmd, "@TipoMatricula", DbType.AnsiString, doctor.EnrollmentType);
                 db.AddInParameter(cmd, "@NumeroMatricula", DbType.AnsiString, doctor.EnrollmentNumber);
                 db.AddInParameter(cmd, "@Especialidad", DbType.AnsiString, doctor.Specialty);
@@ -117,7 +117,7 @@ namespace Safari.Data
             doctor.Name = GetDataValue<string>(dr, "Nombre");
             doctor.LastName = GetDataValue<string>(dr, "Apellido");
             doctor.EnrollmentType = GetDataValue<string>(dr, "TipoMatricula");
-            doctor.EnrollmentNumber = GetDataValue<string>(dr, "NumeroMatricula");
+            doctor.EnrollmentNumber = GetDataValue<int>(dr, "NumeroMatricula");
             doctor.Specialty = GetDataValue<string>(dr, "Especialidad");
             doctor.BirthDate = GetDataValue<DateTime>(dr, "FechaNacimiento");
             doctor.Email = GetDataValue<string>(dr, "Email");

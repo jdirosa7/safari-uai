@@ -23,10 +23,10 @@ namespace Safari.Data
             using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
             {
                 db.AddInParameter(cmd, "@Fecha", DbType.AnsiString, entity.Date);
-                db.AddInParameter(cmd, "@MedicoId", DbType.AnsiString, entity.Doctor.Id);
-                db.AddInParameter(cmd, "@PacienteId", DbType.AnsiString, entity.Patient.Id);
-                db.AddInParameter(cmd, "@SalaId", DbType.AnsiString, entity.Room.Id);
-                db.AddInParameter(cmd, "@TipoServicioId", DbType.AnsiString, entity.ServiceType.Id);
+                db.AddInParameter(cmd, "@MedicoId", DbType.AnsiString, entity.DoctorId);
+                db.AddInParameter(cmd, "@PacienteId", DbType.AnsiString, entity.PatientId);
+                db.AddInParameter(cmd, "@SalaId", DbType.AnsiString, entity.RoomId);
+                db.AddInParameter(cmd, "@TipoServicioId", DbType.AnsiString, entity.ServiceTypeId);
                 db.AddInParameter(cmd, "@Estado", DbType.AnsiString, entity.Status);
                 db.AddInParameter(cmd, "@CreatedBy", DbType.AnsiString, entity.CreatedBy);
                 db.AddInParameter(cmd, "@CreatedDate", DbType.AnsiString, entity.CreatedDate);
@@ -61,7 +61,7 @@ namespace Safari.Data
                 Email = GetDataValue<string>(dr, "MedicoEmail"),
                 Specialty = GetDataValue<string>(dr, "Especialidad"),
                 EnrollmentType = GetDataValue<string>(dr, "TipoMatricula"),
-                EnrollmentNumber = GetDataValue<string>(dr, "NumeroMatricula")
+                EnrollmentNumber = GetDataValue<int>(dr, "NumeroMatricula")
             };
             serviceType.Patient = new Patient
             {
@@ -175,7 +175,7 @@ namespace Safari.Data
         {
             const string SQL_STATEMENT = "UPDATE Cita SET [Fecha]= @Fecha, [MedicoId]= @MedicoId," +
                 "[PacienteId]= @PacienteId, [SalaId]= @SalaId, [TipoServicioId]= @TipoServicioId," +
-                "[Estado]= @Estado, [UpdatedBy]= @UpdatedBy, [UpdatedDate]= @UpdatedDate WHERE [Id]= @Id ";
+                "[Estado]= @Estado, [ChangedBy]= @ChangedBy, [ChangedDate]= @ChangedDate WHERE [Id]= @Id ";
 
             var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
             using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
@@ -187,8 +187,25 @@ namespace Safari.Data
                 db.AddInParameter(cmd, "@SalaId", DbType.AnsiString, entity.Room.Id);
                 db.AddInParameter(cmd, "@TipoServicioId", DbType.AnsiString, entity.ServiceType.Id);
                 db.AddInParameter(cmd, "@Estado", DbType.AnsiString, entity.Status);
-                db.AddInParameter(cmd, "@UpdatedBy", DbType.AnsiString, entity.UpdatedBy);
-                db.AddInParameter(cmd, "@UpdatedDate", DbType.AnsiString, entity.UpdatedDate);
+                db.AddInParameter(cmd, "@ChangedBy", DbType.AnsiString, entity.UpdatedBy);
+                db.AddInParameter(cmd, "@ChangedDate", DbType.AnsiString, entity.UpdatedDate);
+                db.ExecuteNonQuery(cmd);
+            }
+        }
+
+        public void LogicDelete(Appointment entity)
+        {
+            const string SQL_STATEMENT = "UPDATE Cita SET [Estado]= @Estado, [DeletedBy]= @DeletedBy, " +
+                "[DeletedDate]= @DeletedDate, [Deleted]= @Deleted WHERE [Id]= @Id ";
+
+            var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
+            using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
+            {
+                db.AddInParameter(cmd, "@Id", DbType.AnsiString, entity.Id);                
+                db.AddInParameter(cmd, "@Estado", DbType.AnsiString, entity.Status);
+                db.AddInParameter(cmd, "@DeletedBy", DbType.AnsiString, entity.DeletedBy);
+                db.AddInParameter(cmd, "@DeletedDate", DbType.AnsiString, entity.DeletedDate);
+                db.AddInParameter(cmd, "@Deleted", DbType.AnsiString, entity.Deleted);
                 db.ExecuteNonQuery(cmd);
             }
         }

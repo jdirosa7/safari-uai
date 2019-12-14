@@ -13,5 +13,7 @@ namespace Safari.Services.Contracts.Request
     {
         [DataMember]
         public int Id { get; set; }
+        [DataMember]
+        public Appointment Appointment { get; set; }
     }
 }

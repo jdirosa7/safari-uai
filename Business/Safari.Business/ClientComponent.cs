@@ -12,6 +12,7 @@ namespace Safari.Business
     {
 
         ClientDAC dac = new ClientDAC();
+        PatientDAC dacPatients = new PatientDAC();
 
         public Client Add(Client client)
         {
@@ -56,6 +57,17 @@ namespace Safari.Business
             List<Client> result = default(List<Client>);
 
             result = dac.Read();
+            return result;
+        }
+
+        public List<Patient> GetClientPets(int id)
+        {
+            List<Patient> result = default(List<Patient>);
+
+            Dictionary<string, string> filters = new Dictionary<string, string>();
+            filters.Add("ClienteId", id.ToString());
+            result = dacPatients.ReadyByFilters(filters);
+
             return result;
         }
     }

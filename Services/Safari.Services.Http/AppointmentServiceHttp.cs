@@ -112,7 +112,7 @@ namespace Safari.Services.Http
             {
                 var response = new DeleteAppointmentResponse();
                 var bc = new AppointmentComponent();
-                bc.Delete(request.Id);
+                bc.Delete(request.Appointment);
             }
             catch (Exception ex)
             {

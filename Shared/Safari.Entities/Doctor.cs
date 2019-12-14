@@ -19,8 +19,7 @@ namespace Safari.Entities
 
         [DisplayName("Número de matrícula")]
         [Required]
-        [StringLength(50)]
-        public string EnrollmentNumber { get; set; }
+        public int EnrollmentNumber { get; set; }
 
         [DisplayName("Apellido")]
         [Required]
@@ -49,5 +48,11 @@ namespace Safari.Entities
         [Required]
         [StringLength(50)]
         public string Phone { get; set; }
+
+        public enum EnrollmentTypes
+        {
+            MP = 1,
+            MN = 2
+        }
     }
 }

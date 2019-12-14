@@ -1,0 +1,116 @@
+﻿@model Safari.Entities.Patient
+
+@{
+    ViewBag.Title = "ClientPets";
+}
+
+<h2>Mascotas del cliente ViewBag.Cliente</h2>
+
+@*<button type="button" class="btn btn-blue" style="margin-bottom:10px" onclick="getBack()"><span class="glyphicon glyphicon-arrow-left" style="margin-right:5px"></span>Volver</button>*@
+@Html.ActionLink("Volver", "Index2", "Client", null, new { @class = "btn btn-blue" })
+
+<table id="tablePatients" class="table table-striped table-bordered" style="width:100%">
+    <thead>
+        <tr>
+            <th></th>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Fecha de nacimiento</th>
+            <th>Especie</th>
+            <th>Observación</th>
+        </tr>
+    </thead>
+</table>
+
+<link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.20/sl-1.3.1/datatables.min.css" />
+
+@section Scripts{
+
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/select/1.3.1/js/dataTables.select.min.js"></script>
+    <script>
+        $(document).ready(function () {
+                var id = 1;
+                var table = $('#tablePatients').DataTable({
+
+                    "ajax": {
+                        "type": "GET",
+                        "url": "@Url.Action("GetClientPets", "Client")/" + id,
+                        "datatype": "JSON"
+                    },
+
+                    "columns": [
+                        {},
+                        { "data": "Id" },
+                        { "data": "Name" },
+                        { "data": "BirthDate" },
+                        { "data": "Specie" },
+                        { "data": "Observation" }
+                    ],
+
+                    columnDefs: [{
+                        orderable: false,
+                        className: 'select-checkbox',
+                        targets: 0,
+                        defaultContent: ""
+
+                    }],
+                    select: {
+                        style: 'single',
+                        selector: 'td:first-child'
+                    },
+
+                    "language": {
+
+                        "lengthMenu": "Visualizando _MENU_ registros por página",
+                        "zeroRecords": "No se encontraron registros",
+                        "info": "Mostrando _PAGE_ de _PAGES_",
+                        "infoEmpty": "No se encontraron registros"
+                    }
+
+                });
+            });
+
+    </script>
+
+    <script>
+
+        function getBack() {
+
+            $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("Index2", "Client")",
+                    data: data,
+                    success: function (response) {
+
+                    },
+                    error: function (msg) {
+                        $('.error').show();
+                    }
+                });
+        }
+
+    </script>
+
+}
+
+<style>
+
+    .btn-blue {
+        color: #fff;
+        background-color: #4C75FF;
+        border-color: #4C75FF;
+    }
+
+        .btn-blue:hover {
+            background-color: #4267E5;
+            border-color: #4267E5;
+        }
+
+    table#tablePatients > thead > tr {
+        background-color: #0A79AC;
+        color: #fff;
+    }
+</style>

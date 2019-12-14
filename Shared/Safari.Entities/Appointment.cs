@@ -45,5 +45,13 @@ namespace Safari.Entities
         public string DeletedBy { get; set; }
 
         public bool Deleted { get; set; }
+
+        public enum Statuses
+        {
+            Reservado = 1,
+            Confirmado = 2,
+            Realizado = 3,
+            Cancelado = 4
+        }
     }
 }

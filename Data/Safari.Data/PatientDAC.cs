@@ -14,9 +14,9 @@ namespace Safari.Data
     {
         public Patient Create(Patient patient)
         {
-            const string SQL_STATEMENT = "INSERT INTO Paciente ([Nombre],[FechaNacimiento],[Observacion],[ClientId]," +
+            const string SQL_STATEMENT = "INSERT INTO Paciente ([Nombre],[FechaNacimiento],[Observacion],[ClienteId]," +
                 "[EspecieId])" +
-                " VALUES(@Nombre,@FechaNacimiento,@Observacion,@ClientId,@EspecieId); SELECT SCOPE_IDENTITY();";
+                " VALUES(@Nombre,@FechaNacimiento,@Observacion,@ClienteId,@EspecieId); SELECT SCOPE_IDENTITY();";
 
             var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
             using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
@@ -24,7 +24,7 @@ namespace Safari.Data
                 db.AddInParameter(cmd, "@Nombre", DbType.AnsiString, patient.Name);
                 db.AddInParameter(cmd, "@FechaNacimiento", DbType.AnsiString, patient.BirthDate);
                 db.AddInParameter(cmd, "@Observacion", DbType.AnsiString, patient.Observation);
-                db.AddInParameter(cmd, "@ClientId", DbType.AnsiString, patient.ClientId);
+                db.AddInParameter(cmd, "@ClienteId", DbType.AnsiString, patient.ClientId);
                 db.AddInParameter(cmd, "@EspecieId", DbType.AnsiString, patient.SpecieId);
                 patient.Id = Convert.ToInt32(db.ExecuteScalar(cmd));
             }
@@ -33,9 +33,10 @@ namespace Safari.Data
 
         public List<Patient> Read()
         {
-            const string SQL_STATEMENT = "SELECT P.Id, P.Nombre, P.FechaNacimiento, P.Observacion," +
-                " P.ClienteId, P.EspecieId FROM Paciente P inner join Cliente on P.ClienteId = Cliente.Id " +
-                "inner join Especie on P.EspecieId = Especie.Id";
+            const string SQL_STATEMENT = "SELECT P.Id, P.Nombre, E.Nombre as NombreEspecie, E.Id as IDEspecie, P.FechaNacimiento," +
+                "C.Nombre as NombreCliente, C.Apellido as ApellidoCliente, C.Domicilio, C.Email, " +
+                "C.FechaNacimiento as FechaNacCliente, C.Id as IDCliente, C.Telefono, C.Url, P.Observacion " +
+                "FROM Paciente P inner join Cliente C on P.ClienteId = C.Id inner join Especie E on P.EspecieId = E.Id";
 
             List<Patient> result = new List<Patient>();
             var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
@@ -55,8 +56,11 @@ namespace Safari.Data
 
         public Patient ReadBy(int id)
         {
-            const string SQL_STATEMENT = "SELECT [Id], [Nombre], [FechaNacimiento], [Observacion]," +
-                " [ClientId], [EspecieId] FROM Paciente WHERE [Id]=@Id ";
+            const string SQL_STATEMENT = "SELECT P.Id, P.Nombre, E.Nombre as NombreEspecie, E.Id as IDEspecie, P.FechaNacimiento," +
+                "C.Nombre as NombreCliente, C.Apellido as ApellidoCliente, C.Domicilio, C.Email, " +
+                "C.FechaNacimiento as FechaNacCliente, C.Id as IDCliente, C.Telefono, C.Url, P.Observacion " +
+                "FROM Paciente P inner join Cliente C on P.ClienteId = C.Id inner join Especie E on P.EspecieId = E.Id" +
+                " WHERE P.Id=@Id ";
             Patient patient = null;
 
             var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
@@ -77,7 +81,7 @@ namespace Safari.Data
         public List<Patient> ReadyByFilters(Dictionary<string, string> filters)
         {
             string SQL_STATEMENT = "SELECT [Id], [Nombre], [FechaNacimiento], [Observacion]," +
-                " [ClientId], [EspecieId] FROM Paciente WHERE  ";
+                " [ClienteId], [EspecieId] FROM Paciente WHERE  ";
             List<Patient> clients = null;
 
             List<KeyValuePair<string, string>> values = filters.ToList();
@@ -114,7 +118,7 @@ namespace Safari.Data
         public void Update(Patient patient)
         {
             const string SQL_STATEMENT = "UPDATE Paciente SET [Nombre]= @Nombre, [FechaNacimiento]=@FechaNacimiento, " +
-                "[Observacion]= @Observacion, [ClientId]= @ClientId, [EspecieId]= @EspecieId WHERE [Id]= @Id ";
+                "[Observacion]= @Observacion, [ClienteId]= @ClienteId, [EspecieId]= @EspecieId WHERE [Id]= @Id ";
 
             var db = DatabaseFactory.CreateDatabase(CONNECTION_NAME);
             using (DbCommand cmd = db.GetSqlStringCommand(SQL_STATEMENT))
@@ -122,7 +126,7 @@ namespace Safari.Data
                 db.AddInParameter(cmd, "@Nombre", DbType.AnsiString, patient.Name);
                 db.AddInParameter(cmd, "@FechaNacimiento", DbType.AnsiString, patient.BirthDate);
                 db.AddInParameter(cmd, "@Observacion", DbType.AnsiString, patient.Observation);
-                db.AddInParameter(cmd, "@ClientId", DbType.AnsiString, patient.ClientId);
+                db.AddInParameter(cmd, "@ClienteId", DbType.AnsiString, patient.ClientId);
                 db.AddInParameter(cmd, "@EspecieId", DbType.AnsiString, patient.SpecieId);
                 db.AddInParameter(cmd, "@Id", DbType.Int32, patient.Id);
                 db.ExecuteNonQuery(cmd);
@@ -147,8 +151,24 @@ namespace Safari.Data
             patient.Name = GetDataValue<string>(dr, "Nombre");
             patient.BirthDate = GetDataValue<DateTime>(dr, "FechaNacimiento");
             patient.Observation = GetDataValue<string>(dr, "Observacion");
-            patient.ClientId = GetDataValue<int>(dr, "ClientId");
-            patient.SpecieId = GetDataValue<int>(dr, "EspecieId");
+            patient.Specie = new Species
+            {
+                Id = GetDataValue<int>(dr, "IDEspecie"),
+                Nombre = GetDataValue<string>(dr, "NombreEspecie")
+            };
+            patient.Client = new Client
+            {
+                Id = GetDataValue<int>(dr, "IDCliente"),
+                Name = GetDataValue<string>(dr, "NombreCliente"),
+                LastName = GetDataValue<string>(dr, "ApellidoCliente"),
+                BirthDate = GetDataValue<DateTime>(dr, "FechaNacCliente"),
+                Address = GetDataValue<string>(dr, "Domicilio"),
+                Email = GetDataValue<string>(dr, "Email"),
+                Phone = GetDataValue<string>(dr, "Telefono"),
+                URL = GetDataValue<string>(dr, "Url")
+            };
+            patient.ClientId = GetDataValue<int>(dr, "IDCliente");
+            patient.SpecieId = GetDataValue<int>(dr, "IDEspecie");
             return patient;
         }
     }

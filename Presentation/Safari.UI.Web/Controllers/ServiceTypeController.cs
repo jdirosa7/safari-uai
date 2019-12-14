@@ -21,6 +21,11 @@ namespace Safari.UI.Web.Controllers
             return View();
         }
 
+        public ActionResult Index2()
+        {
+            return View();
+        }
+
         public ActionResult GetData()
         {
             List<ServiceType> data = db.ToList();
@@ -35,23 +40,18 @@ namespace Safari.UI.Web.Controllers
 
         public JsonResult PostData(ServiceType serviceType)
         {
-            if (ModelState.IsValid)
+            ServiceType dataServiceType = new ServiceType();
+            dataServiceType.Name = serviceType.Name;
+
+            if (serviceType.Id > 0)
             {
-                ServiceType dataServiceType = new ServiceType();
-                serviceType.Name = serviceType.Name;
-
-                if (serviceType.Id > 0)
-                {
-                    serviceType.Id = serviceType.Id;
-                    db.Update(serviceType);
-                }
-                else
-                    db.Add(serviceType);
-
-                return Json("success", JsonRequestBehavior.AllowGet);
+                dataServiceType.Id = serviceType.Id;
+                db.Update(dataServiceType);
             }
+            else
+                db.Add(dataServiceType);
 
-            return Json("error", JsonRequestBehavior.DenyGet);
+            return Json("success", JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult DeleteData(int? id)

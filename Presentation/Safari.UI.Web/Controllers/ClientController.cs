@@ -16,18 +16,81 @@ namespace Safari.UI.Web.Controllers
         //ClientProcess db = new ClientProcess();
         ClientComponent db = new ClientComponent();
 
-        //public ClientController(ICliente iCliente)
-        //{
-        //    db = iCliente;
-        //}
-
-
+        
         // GET: Client
         [Route("clientes", Name = "ClientControllerRouteIndex")]
         public ActionResult Index()
         {
             var clientes = db.ToList();
             return View(clientes);
+        }
+
+        public ActionResult Index2()
+        {            
+            return View();
+        }
+
+        public ActionResult GetData()
+        {
+            List<Client> data = db.ToList();
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetDataById(int id)
+        {
+            var client = db.Find(id);
+            return Json(client, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult ClientPets(int id)
+        {
+            ViewBag.ClientId = id;
+            return View("ClientPets");
+        }
+
+        public ActionResult GetClientPets(int id)
+        {
+            List<Patient> patients = db.GetClientPets(id);
+            return Json(new { data = patients }, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult PostData(Client client)
+        {
+            Client dataClient = new Client();
+            dataClient.Name = client.Name;
+            dataClient.LastName = client.LastName;
+            dataClient.Email = client.Email;
+            dataClient.Phone = client.Phone;
+            dataClient.URL = client.URL;
+            dataClient.BirthDate = client.BirthDate;
+            dataClient.Address = client.Address;
+
+            if (client.Id > 0)
+            {
+                dataClient.Id = client.Id;
+                db.Update(dataClient);
+            }
+            else
+                db.Add(dataClient);
+
+            return Json("success", JsonRequestBehavior.AllowGet);
+            //if (ModelState.IsValid)
+            //{
+
+            //}
+
+            //return Json("error", JsonRequestBehavior.DenyGet);
+        }
+
+        public JsonResult DeleteData(int? id)
+        {
+            if (id > 0)
+            {
+                db.Delete(id.Value);
+                return Json("success", JsonRequestBehavior.AllowGet);
+            }
+
+            return Json("error", JsonRequestBehavior.DenyGet);
         }
 
         // GET: Client/Details/5

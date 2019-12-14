@@ -16,8 +16,8 @@ namespace Safari.UI.Web.Controllers
     {
         //IRoom db = new RoomService();
 
-        //RoomProcess db = new RoomProcess();
-        RoomComponent db = new RoomComponent();
+        RoomProcess db = new RoomProcess();
+        //RoomComponent db = new RoomComponent();
 
         // GET: Room
         [Route("consultorios", Name = "RoomControllerRouteIndex")]
@@ -33,9 +33,23 @@ namespace Safari.UI.Web.Controllers
             return PartialView("CreatePartialView");
         }
 
+        //[HttpGet]
+        //public PartialViewResult Edit(Int32 id)
+        //{
+        //    var room = db.Find(id);
+        //    return PartialView(room);
+        //}
+
+        //[HttpPost]
+        //public JsonResult Edit(Room room)
+        //{
+        //    db.Update(room);
+        //    return Json(room, JsonRequestBehavior.AllowGet);
+        //}
+
         public ActionResult Index2()
         {
-            //ViewBag.RoomTypes = new SelectList(Enum.GetValues(typeof(Room.RoomTypes)), RoomTypes.Recuperación);
+            ViewBag.RoomTypes = new SelectList(Enum.GetValues(typeof(Room.RoomTypes)), RoomTypes.Recuperación);
             return View();
         }
 
@@ -53,24 +67,25 @@ namespace Safari.UI.Web.Controllers
 
         public JsonResult PostData(Room room)
         {
-            if (ModelState.IsValid)
+            Room dataRoom = new Room();
+            dataRoom.Name = room.Name;
+            dataRoom.RoomType = room.RoomType;
+
+            if (room.Id > 0)
             {
-                Room dataRoom = new Room();
-                dataRoom.Name = room.Name;
-                dataRoom.RoomType = room.RoomType;
-
-                if(room.Id > 0)
-                {
-                    dataRoom.Id = room.Id;
-                    db.Update(dataRoom);                    
-                }
-                else
-                    db.Add(dataRoom);
-
-                return Json("success", JsonRequestBehavior.AllowGet);
+                dataRoom.Id = room.Id;
+                db.Update(dataRoom);
             }
+            else
+                db.Add(dataRoom);
 
-            return Json("error", JsonRequestBehavior.DenyGet);
+            return Json("success", JsonRequestBehavior.AllowGet);
+            //if (ModelState.IsValid)
+            //{
+
+            //}
+
+            //return Json("error", JsonRequestBehavior.DenyGet);
         }
 
         public JsonResult DeleteData(int? id)

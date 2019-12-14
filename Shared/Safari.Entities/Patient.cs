@@ -32,6 +32,7 @@ namespace Safari.Entities
         [DisplayName("Observación")]
         [Required]
         [StringLength(200)]
+        [DataType(DataType.MultilineText)]
         public string Observation { get; set; }
     }
 }

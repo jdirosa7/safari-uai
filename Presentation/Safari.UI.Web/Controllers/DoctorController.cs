@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static Safari.Entities.Doctor;
 
 namespace Safari.UI.Web.Controllers
 {
@@ -21,6 +22,58 @@ namespace Safari.UI.Web.Controllers
         {
             var doctors = db.ToList();
             return View(doctors);
+        }
+
+        public ActionResult Index2()
+        {
+            ViewBag.EnrollmentTypes = new SelectList(Enum.GetValues(typeof(Doctor.EnrollmentTypes)),"MP");
+            return View();
+        }
+
+        public ActionResult GetData()
+        {
+            List<Doctor> data = db.ToList();
+            return Json(new { data = data }, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetDataById(int id)
+        {
+            var doctor = db.Find(id);
+            return Json(doctor, JsonRequestBehavior.AllowGet);
+        }
+
+        public JsonResult PostData(Doctor doctor)
+        {
+            Doctor dataDoctor = new Doctor();
+            dataDoctor.Name = doctor.Name;
+            dataDoctor.LastName = doctor.LastName;
+            dataDoctor.Email = doctor.Email;
+            dataDoctor.Phone = doctor.Phone;
+            dataDoctor.BirthDate = doctor.BirthDate;
+            dataDoctor.EnrollmentType = doctor.EnrollmentType;
+            dataDoctor.EnrollmentNumber = doctor.EnrollmentNumber;
+            dataDoctor.Specialty = doctor.Specialty;
+
+            if (doctor.Id > 0)
+            {
+                dataDoctor.Id = doctor.Id;
+                db.Update(dataDoctor);
+            }
+            else
+                db.Add(dataDoctor);
+
+            return Json("success", JsonRequestBehavior.AllowGet);            
+        }
+
+        public JsonResult DeleteData(int? id)
+        {
+            if (id > 0)
+            {
+                db.Delete(id.Value);
+                return Json("success", JsonRequestBehavior.AllowGet);
+            }
+
+            return Json("error", JsonRequestBehavior.DenyGet);
         }
 
         // GET: Doctor/Details/5
