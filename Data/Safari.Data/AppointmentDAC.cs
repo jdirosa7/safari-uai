@@ -48,12 +48,12 @@ namespace Safari.Data
 
         private Appointment LoadAppointment(IDataReader dr)
         {
-            Appointment serviceType = new Appointment();
-            serviceType.Id = GetDataValue<int>(dr, "Id");
-            serviceType.Date = GetDataValue<DateTime>(dr, "Fecha");
-            serviceType.Doctor = new Doctor
+            Appointment app = new Appointment();
+            app.Id = GetDataValue<int>(dr, "CitaId");
+            app.Date = GetDataValue<DateTime>(dr, "Fecha");
+            app.Doctor = new Doctor
             {
-                Id = GetDataValue<int>(dr, "Id"),
+                Id = GetDataValue<int>(dr, "MedicoId"),
                 Name = GetDataValue<string>(dr, "MedicoNombre"),
                 LastName = GetDataValue<string>(dr, "MedicoApellido"),
                 BirthDate = GetDataValue<DateTime>(dr, "MedicoFechaNacimiento"),
@@ -63,17 +63,17 @@ namespace Safari.Data
                 EnrollmentType = GetDataValue<string>(dr, "TipoMatricula"),
                 EnrollmentNumber = GetDataValue<int>(dr, "NumeroMatricula")
             };
-            serviceType.Patient = new Patient
+            app.Patient = new Patient
             {
-                Id = GetDataValue<int>(dr, "Id"),
+                Id = GetDataValue<int>(dr, "PacienteId"),
                 Name = GetDataValue<string>(dr, "PacienteNombre"),
                 BirthDate = GetDataValue<DateTime>(dr, "PacienteFechaNacimiento"),
                 Client = new Client
                 {
-                    Id = GetDataValue<int>(dr, "Id"),
+                    Id = GetDataValue<int>(dr, "ClienteId"),
                     Name = GetDataValue<string>(dr, "ClienteNombre"),
                     BirthDate = GetDataValue<DateTime>(dr, "ClienteFechaNacimiento"),
-                    Address = GetDataValue<string>(dr, "Direccion"),
+                    Address = GetDataValue<string>(dr, "Domicilio"),
                     LastName = GetDataValue<string>(dr, "ClienteApellido"),
                     Email = GetDataValue<string>(dr, "ClienteEmail"),
                     Phone = GetDataValue<string>(dr, "ClienteTelefono"),
@@ -81,43 +81,44 @@ namespace Safari.Data
                 },
                 Specie = new Species
                 {
-                    Id = GetDataValue<int>(dr, "Id"),
+                    Id = GetDataValue<int>(dr, "EspecieId"),
                     Nombre = GetDataValue<string>(dr, "EspecieNombre")
                 },
                 Observation = GetDataValue<string>(dr, "Observacion")
             };
-            serviceType.Room = new Room
+            app.Room = new Room
             {
-                Id = GetDataValue<int>(dr, "Id"),
+                Id = GetDataValue<int>(dr, "SalaId"),
                 Name = GetDataValue<string>(dr, "SalaNombre"),
                 RoomType = GetDataValue<string>(dr, "TipoSala")
             };
-            serviceType.ServiceType = new ServiceType
+            app.ServiceType = new ServiceType
             {
-                Id = GetDataValue<int>(dr, "Id"),
+                Id = GetDataValue<int>(dr, "TipoServicioId"),
                 Name = GetDataValue<string>(dr, "TipoServicioNombre")
             };
-            serviceType.Status = GetDataValue<string>(dr, "Estado");
-            serviceType.CreatedDate = GetDataValue<DateTime>(dr, "CreatedDate");
-            serviceType.CreatedBy = GetDataValue<string>(dr, "CreatedBy");
-            serviceType.UpdatedDate = GetDataValue<DateTime>(dr, "ChangedDate");
-            serviceType.UpdatedBy = GetDataValue<string>(dr, "ChangedBy");
-            serviceType.DeletedDate = GetDataValue<DateTime>(dr, "DeletedDate");
-            serviceType.DeletedBy = GetDataValue<string>(dr, "DeletedBy");
-            serviceType.Deleted = GetDataValue<bool>(dr, "Deleted");
-            return serviceType;
+            app.Status = GetDataValue<string>(dr, "Estado");
+            app.CreatedDate = GetDataValue<DateTime>(dr, "CreatedDate");
+            app.CreatedBy = GetDataValue<string>(dr, "CreatedBy");
+            app.UpdatedDate = GetDataValue<DateTime>(dr, "ChangedDate");
+            app.UpdatedBy = GetDataValue<string>(dr, "ChangedBy");
+            app.DeletedDate = GetDataValue<DateTime>(dr, "DeletedDate");
+            app.DeletedBy = GetDataValue<string>(dr, "DeletedBy");
+            app.Deleted = GetDataValue<bool>(dr, "Deleted");
+            return app;
         }
 
         public List<Appointment> Read()
         {
             const string SQL_STATEMENT = "SELECT Cita.Id as CitaId, [Fecha], [MedicoId], [PacienteId], " +
                 "[SalaId], [TipoServicioId],[Estado], [CreatedBy], [CreatedDate], [ChangedBy], [ChangedDate]," +
-                " [DeletedBy], [DeletedDate],[Deleted], M.Nombre as MedicoNombre, M.Apellido as MedicoApellido," +
+                " [DeletedBy], [DeletedDate],[Deleted], M.Id as MedicoId, M.Nombre as MedicoNombre, M.Apellido as MedicoApellido," +
                 " M.FechaNacimiento as MedicoFechaNacimiento,M.Telefono as MedicoTelefono, M.Email as MedicoEmail," +
-                " M.Especialidad, M.TipoMatricula, M.NumeroMatricula,P.Nombre as PacienteNombre, P.FechaNacimiento " +
-                "as PacienteFechaNacimiento, P.Observacion,C.Nombre as ClienteNombre, C.Apellido as ClienteApellido," +
+                " M.Especialidad, M.TipoMatricula, M.NumeroMatricula, P.Id as PacienteId, P.Nombre as PacienteNombre, P.FechaNacimiento " +
+                "as PacienteFechaNacimiento, P.Observacion,C.Id as ClienteId, C.Nombre as ClienteNombre, C.Apellido as ClienteApellido," +
                 " C.FechaNacimiento as ClienteFechaNacimiento,C.Domicilio, C.Telefono as ClienteTelefono, C.Email " +
-                "as ClienteEmail, C.Url,E.Nombre as EspecieNombre,S.Nombre as SalaNombre, S.TipoSala,TS.Nombre " +
+                "as ClienteEmail, C.Url, E.Id as EspecieId, E.Nombre as EspecieNombre, S.Id as SalaId, S.Nombre as SalaNombre," +
+                " S.TipoSala, TS.Id as TipoServicioId, TS.Nombre " +
                 "as TipoServicioNombre FROM Cita inner join Medico M on MedicoId = M.Id inner join Paciente P " +
                 "on PacienteId = P.Id inner join Cliente C on C.Id = P.ClienteId inner join Especie E on E.Id" +
                 " = P.EspecieId inner join Sala S on S.Id = Cita.SalaId inner join TipoServicio TS on TS.Id" +
@@ -143,12 +144,13 @@ namespace Safari.Data
         {
             const string SQL_STATEMENT = "SELECT Cita.Id as CitaId, [Fecha], [MedicoId], [PacienteId], " +
                 "[SalaId], [TipoServicioId],[Estado], [CreatedBy], [CreatedDate], [ChangedBy], [ChangedDate]," +
-                " [DeletedBy], [DeletedDate],[Deleted], M.Nombre as MedicoNombre, M.Apellido as MedicoApellido," +
+                " [DeletedBy], [DeletedDate],[Deleted], M.Id as MedicoId, M.Nombre as MedicoNombre, M.Apellido as MedicoApellido," +
                 " M.FechaNacimiento as MedicoFechaNacimiento,M.Telefono as MedicoTelefono, M.Email as MedicoEmail," +
-                " M.Especialidad, M.TipoMatricula, M.NumeroMatricula,P.Nombre as PacienteNombre, P.FechaNacimiento " +
-                "as PacienteFechaNacimiento, P.Observacion,C.Nombre as ClienteNombre, C.Apellido as ClienteApellido," +
+                " M.Especialidad, M.TipoMatricula, M.NumeroMatricula, P.Id as PacienteId, P.Nombre as PacienteNombre, P.FechaNacimiento " +
+                "as PacienteFechaNacimiento, P.Observacion,C.Id as ClienteId, C.Nombre as ClienteNombre, C.Apellido as ClienteApellido," +
                 " C.FechaNacimiento as ClienteFechaNacimiento,C.Domicilio, C.Telefono as ClienteTelefono, C.Email " +
-                "as ClienteEmail, C.Url,E.Nombre as EspecieNombre,S.Nombre as SalaNombre, S.TipoSala,TS.Nombre " +
+                "as ClienteEmail, C.Url, E.Id as EspecieId, E.Nombre as EspecieNombre, S.Id as SalaId, S.Nombre as SalaNombre," +
+                " S.TipoSala, TS.Id as TipoServicioId, TS.Nombre " +
                 "as TipoServicioNombre FROM Cita inner join Medico M on MedicoId = M.Id inner join Paciente P " +
                 "on PacienteId = P.Id inner join Cliente C on C.Id = P.ClienteId inner join Especie E on E.Id" +
                 " = P.EspecieId inner join Sala S on S.Id = Cita.SalaId inner join TipoServicio TS on TS.Id" +
@@ -182,10 +184,10 @@ namespace Safari.Data
             {
                 db.AddInParameter(cmd, "@Id", DbType.AnsiString, entity.Id);
                 db.AddInParameter(cmd, "@Fecha", DbType.AnsiString, entity.Date);
-                db.AddInParameter(cmd, "@MedicoId", DbType.AnsiString, entity.Doctor.Id);
-                db.AddInParameter(cmd, "@PacienteId", DbType.AnsiString, entity.Patient.Id);
-                db.AddInParameter(cmd, "@SalaId", DbType.AnsiString, entity.Room.Id);
-                db.AddInParameter(cmd, "@TipoServicioId", DbType.AnsiString, entity.ServiceType.Id);
+                db.AddInParameter(cmd, "@MedicoId", DbType.AnsiString, entity.DoctorId);
+                db.AddInParameter(cmd, "@PacienteId", DbType.AnsiString, entity.PatientId);
+                db.AddInParameter(cmd, "@SalaId", DbType.AnsiString, entity.RoomId);
+                db.AddInParameter(cmd, "@TipoServicioId", DbType.AnsiString, entity.ServiceTypeId);
                 db.AddInParameter(cmd, "@Estado", DbType.AnsiString, entity.Status);
                 db.AddInParameter(cmd, "@ChangedBy", DbType.AnsiString, entity.UpdatedBy);
                 db.AddInParameter(cmd, "@ChangedDate", DbType.AnsiString, entity.UpdatedDate);
